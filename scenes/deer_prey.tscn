@@ -1,0 +1,76 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/wild_animal.gd" id="1_deer"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_deer"]
+size = Vector3(0.8, 1.4, 1.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fur"]
+albedo_color = Color(0.55, 0.36, 0.22, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_torso"]
+material = SubResource("StandardMaterial3D_fur")
+size = Vector3(0.65, 0.75, 1.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_neck_head"]
+material = SubResource("StandardMaterial3D_fur")
+size = Vector3(0.3, 0.6, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_antlers"]
+albedo_color = Color(0.72, 0.68, 0.6, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_antlers"]
+material = SubResource("StandardMaterial3D_antlers")
+size = Vector3(0.8, 0.45, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hooves"]
+albedo_color = Color(0.28, 0.2, 0.14, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_leg"]
+material = SubResource("StandardMaterial3D_hooves")
+top_radius = 0.06
+bottom_radius = 0.05
+height = 0.75
+
+[node name="DeerPrey" type="CharacterBody3D"]
+collision_layer = 32
+collision_mask = 5
+script = ExtResource("1_deer")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+shape = SubResource("BoxShape3D_deer")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("BoxMesh_torso")
+
+[node name="NeckHead" type="MeshInstance3D" parent="BodyMesh"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0.45, 0.6)
+mesh = SubResource("BoxMesh_neck_head")
+
+[node name="Antlers" type="MeshInstance3D" parent="BodyMesh/NeckHead"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0.05)
+mesh = SubResource("BoxMesh_antlers")
+
+[node name="LegFL" type="MeshInstance3D" parent="BodyMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.48, 0.45)
+mesh = SubResource("CylinderMesh_leg")
+
+[node name="LegFR" type="MeshInstance3D" parent="BodyMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.48, 0.45)
+mesh = SubResource("CylinderMesh_leg")
+
+[node name="LegBL" type="MeshInstance3D" parent="BodyMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.48, -0.45)
+mesh = SubResource("CylinderMesh_leg")
+
+[node name="LegBR" type="MeshInstance3D" parent="BodyMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.48, -0.45)
+mesh = SubResource("CylinderMesh_leg")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 1.0
+target_desired_distance = 1.5

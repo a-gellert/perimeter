@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/interaction/bed_interaction.gd" id="1_bed"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_frame"]
+albedo_color = Color(0.45, 0.28, 0.16, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_frame"]
+material = SubResource("StandardMaterial3D_frame")
+size = Vector3(1.2, 0.35, 2.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_blanket"]
+albedo_color = Color(0.32, 0.42, 0.45, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_blanket"]
+material = SubResource("StandardMaterial3D_blanket")
+size = Vector3(1.0, 0.2, 1.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bed_interact"]
+size = Vector3(1.6, 1.2, 2.5)
+
+[node name="WardenBed" type="Node3D"]
+
+[node name="FrameMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175, 0)
+mesh = SubResource("BoxMesh_frame")
+
+[node name="BlanketMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0.1)
+mesh = SubResource("BoxMesh_blanket")
+
+[node name="InteractionArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+shape = SubResource("BoxShape3D_bed_interact")
+
+[node name="BedInteraction" type="Node" parent="InteractionArea"]
+script = ExtResource("1_bed")

@@ -1,0 +1,99 @@
+[gd_scene load_steps=10 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wood_beam"]
+albedo_color = Color(0.38, 0.25, 0.14, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sulfur"]
+albedo_color = Color(0.88, 0.82, 0.18, 1)
+emission_enabled = true
+emission = Color(0.72, 0.65, 0.1, 1)
+emission_energy_multiplier = 0.8
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rock"]
+albedo_color = Color(0.32, 0.3, 0.28, 1)
+roughness = 0.92
+
+[sub_resource type="BoxMesh" id="BoxMesh_beam_vert"]
+material = SubResource("StandardMaterial3D_wood_beam")
+size = Vector3(0.35, 3.5, 0.35)
+
+[sub_resource type="BoxMesh" id="BoxMesh_beam_horiz"]
+material = SubResource("StandardMaterial3D_wood_beam")
+size = Vector3(3.6, 0.35, 0.35)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_frame"]
+size = Vector3(3.8, 3.6, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sulfur_deposit"]
+material = SubResource("StandardMaterial3D_sulfur")
+size = Vector3(2.5, 1.8, 2.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_deposit"]
+size = Vector3(2.5, 1.8, 2.0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mine_wall"]
+material = SubResource("StandardMaterial3D_rock")
+size = Vector3(10.0, 6.0, 4.0)
+
+[node name="SulfurMine" type="Node3D"]
+
+[node name="QuarryBackdrop" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -3)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="QuarryBackdrop"]
+shape = SubResource("BoxShape3D_frame")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="QuarryBackdrop"]
+mesh = SubResource("BoxMesh_mine_wall")
+
+[node name="TimberFrame" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TimberFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+shape = SubResource("BoxShape3D_frame")
+
+[node name="LeftPost" type="MeshInstance3D" parent="TimberFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 1.75, 0)
+mesh = SubResource("BoxMesh_beam_vert")
+
+[node name="RightPost" type="MeshInstance3D" parent="TimberFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 1.75, 0)
+mesh = SubResource("BoxMesh_beam_vert")
+
+[node name="TopLintel" type="MeshInstance3D" parent="TimberFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, 0)
+mesh = SubResource("BoxMesh_beam_horiz")
+
+[node name="SulfurDeposit1" type="StaticBody3D" parent="."]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 4.2, 0.9, -1)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SulfurDeposit1"]
+shape = SubResource("BoxShape3D_deposit")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SulfurDeposit1"]
+mesh = SubResource("BoxMesh_sulfur_deposit")
+
+[node name="SulfurDeposit2" type="StaticBody3D" parent="."]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -4.5, 0.7, -0.5)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SulfurDeposit2"]
+shape = SubResource("BoxShape3D_deposit")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SulfurDeposit2"]
+mesh = SubResource("BoxMesh_sulfur_deposit")
+
+[node name="MineLantern" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, -0.2)
+light_color = Color(1, 0.85, 0.4, 1)
+light_energy = 1.6
+omni_range = 10.0

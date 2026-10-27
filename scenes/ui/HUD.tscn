@@ -1,0 +1,264 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/hud_controller.gd" id="1_hud"]
+[ext_resource type="Script" path="res://scripts/ui/stats_bar.gd" id="2_bar"]
+[ext_resource type="Script" path="res://scripts/ui/tablet_toggle_button.gd" id="3_btn"]
+[ext_resource type="Script" path="res://scripts/ui/sleep_dialog.gd" id="4_sleep"]
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="HUDController" type="Control" parent="." node_paths=PackedStringArray("hp_bar", "stamina_bar", "logs_label", "time_label", "context_prompt_label", "mode_label", "zone_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_hud")
+hp_bar = NodePath("BottomLeft/VBoxContainer/HPBar")
+stamina_bar = NodePath("BottomLeft/VBoxContainer/StaminaBar")
+logs_label = NodePath("BottomLeft/VBoxContainer/LogsLabel")
+time_label = NodePath("TopBar/MarginContainer/HBoxContainer/TimeLabel")
+context_prompt_label = NodePath("CenterContainer/ContextPromptLabel")
+mode_label = NodePath("TopBar/MarginContainer/HBoxContainer/ModeLabel")
+zone_label = NodePath("TopBar/MarginContainer/HBoxContainer/ZoneLabel")
+
+[node name="TopBar" type="Control" parent="HUDController"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 60.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HUDController/TopBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUDController/TopBar/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TimeLabel" type="Label" parent="HUDController/TopBar/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 18
+text = "07:00 | День"
+
+[node name="ZoneLabel" type="Label" parent="HUDController/TopBar/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.9, 0.8, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 16
+text = "[ Кордон Лесника ]"
+
+[node name="Spacer" type="Control" parent="HUDController/TopBar/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="ModeLabel" type="Label" parent="HUDController/TopBar/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 0.9)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 14
+text = "Вид от первого лица (Tab - Планшет)"
+
+[node name="Spacer2" type="Control" parent="HUDController/TopBar/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="TabletButton" type="Button" parent="HUDController/TopBar/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(160, 36)
+layout_mode = 2
+text = "Планшет егеря"
+script = ExtResource("3_btn")
+
+[node name="BottomLeft" type="Control" parent="HUDController"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -140.0
+offset_right = 320.0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUDController/BottomLeft"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 10.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 6
+mouse_filter = 2
+
+[node name="HPLabel" type="Label" parent="HUDController/BottomLeft/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Здоровье"
+
+[node name="HPBar" type="ProgressBar" parent="HUDController/BottomLeft/VBoxContainer"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+step = 0.1
+value = 100.0
+show_percentage = false
+script = ExtResource("2_bar")
+
+[node name="StaminaLabel" type="Label" parent="HUDController/BottomLeft/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Энергия"
+
+[node name="StaminaBar" type="ProgressBar" parent="HUDController/BottomLeft/VBoxContainer"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+step = 0.1
+value = 100.0
+show_percentage = false
+script = ExtResource("2_bar")
+
+[node name="LogsLabel" type="Label" parent="HUDController/BottomLeft/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.5, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 14
+text = "Бревна на плече: 0 / 2"
+
+[node name="CenterContainer" type="CenterContainer" parent="HUDController"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = 40.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ContextPromptLabel" type="Label" parent="HUDController/CenterContainer"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
+text = "[E] Взаимодействовать"
+horizontal_alignment = 1
+
+[node name="Crosshair" type="ColorRect" parent="HUDController"]
+custom_minimum_size = Vector2(4, 4)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.7)
+
+[node name="SleepDialog" type="Control" parent="." node_paths=PackedStringArray("panel", "fade_overlay", "sleep_4h_btn", "sleep_8h_btn", "cancel_btn")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_sleep")
+panel = NodePath("CenterContainer/Panel")
+fade_overlay = NodePath("FadeOverlay")
+sleep_4h_btn = NodePath("CenterContainer/Panel/VBoxContainer/Btn4h")
+sleep_8h_btn = NodePath("CenterContainer/Panel/VBoxContainer/Btn8h")
+cancel_btn = NodePath("CenterContainer/Panel/VBoxContainer/BtnCancel")
+
+[node name="FadeOverlay" type="ColorRect" parent="SleepDialog"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="CenterContainer" type="CenterContainer" parent="SleepDialog"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="SleepDialog/CenterContainer"]
+custom_minimum_size = Vector2(360, 220)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SleepDialog/CenterContainer/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="SleepDialog/CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Отдых в избе егеря"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="SleepDialog/CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 0.9)
+theme_override_font_sizes/font_size = 12
+text = "Сон восстанавливает силы, но ночью в тайге бродят твари..."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Btn4h" type="Button" parent="SleepDialog/CenterContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "Поспать 4 часа (Короткий отдых)"
+
+[node name="Btn8h" type="Button" parent="SleepDialog/CenterContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "Поспать 8 часов (Полный сон)"
+
+[node name="BtnCancel" type="Button" parent="SleepDialog/CenterContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+text = "Не спать"

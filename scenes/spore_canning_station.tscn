@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/spore_canning_station.gd" id="1_canning"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_table"]
+size = Vector3(1.4, 0.9, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_table"]
+albedo_color = Color(0.42, 0.28, 0.16, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_table"]
+material = SubResource("StandardMaterial3D_table")
+size = Vector3(1.4, 0.85, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_metal_press"]
+albedo_color = Color(0.3, 0.32, 0.35, 1)
+metallic = 0.9
+roughness = 0.3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_press"]
+material = SubResource("StandardMaterial3D_metal_press")
+top_radius = 0.15
+bottom_radius = 0.18
+height = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jar"]
+albedo_color = Color(0.7, 0.9, 0.8, 0.7)
+transparency = 1
+roughness = 0.1
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_jar"]
+material = SubResource("StandardMaterial3D_jar")
+top_radius = 0.08
+bottom_radius = 0.08
+height = 0.22
+
+[node name="SporeCanningStation" type="StaticBody3D"]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1_canning")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+shape = SubResource("BoxShape3D_table")
+
+[node name="TableMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.425, 0)
+mesh = SubResource("BoxMesh_table")
+
+[node name="CanningPressMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 1.05, 0)
+mesh = SubResource("CylinderMesh_press")
+
+[node name="JarSample1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.96, 0.15)
+mesh = SubResource("CylinderMesh_jar")
+
+[node name="JarSample2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0.96, -0.1)
+mesh = SubResource("CylinderMesh_jar")

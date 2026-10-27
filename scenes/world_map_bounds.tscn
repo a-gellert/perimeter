@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/border_kill_volume.gd" id="1_kill_vol"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_north"]
+size = Vector3(1100, 60, 40)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_south"]
+size = Vector3(1100, 60, 40)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_west"]
+size = Vector3(40, 60, 1100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_east"]
+size = Vector3(40, 60, 1100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kill_ns"]
+size = Vector3(1200, 80, 120)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kill_we"]
+size = Vector3(120, 80, 1200)
+
+[node name="WorldMapBounds" type="Node3D"]
+
+[node name="NaturalRockWalls" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="NorthCliffCollider" type="CollisionShape3D" parent="NaturalRockWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, -510)
+shape = SubResource("BoxShape3D_north")
+
+[node name="SouthGorgeCollider" type="CollisionShape3D" parent="NaturalRockWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 510)
+shape = SubResource("BoxShape3D_south")
+
+[node name="WestBarricadeCollider" type="CollisionShape3D" parent="NaturalRockWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -510, 10, 0)
+shape = SubResource("BoxShape3D_west")
+
+[node name="EastMountainCollider" type="CollisionShape3D" parent="NaturalRockWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 510, 10, 0)
+shape = SubResource("BoxShape3D_east")
+
+[node name="DeadlyBorderKillVolume" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_kill_vol")
+
+[node name="BorderShape" type="CollisionShape3D" parent="DeadlyBorderKillVolume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, -570)
+shape = SubResource("BoxShape3D_kill_ns")
+
+[node name="BorderShape_South" type="CollisionShape3D" parent="DeadlyBorderKillVolume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 570)
+shape = SubResource("BoxShape3D_kill_ns")
+
+[node name="BorderShape_West" type="CollisionShape3D" parent="DeadlyBorderKillVolume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -570, 15, 0)
+shape = SubResource("BoxShape3D_kill_we")
+
+[node name="BorderShape_East" type="CollisionShape3D" parent="DeadlyBorderKillVolume"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 570, 15, 0)
+shape = SubResource("BoxShape3D_kill_we")

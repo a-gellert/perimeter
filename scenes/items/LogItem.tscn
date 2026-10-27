@@ -1,0 +1,62 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/interaction/log_pickup.gd" id="1_log_pickup"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_log"]
+height = 1.6
+radius = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bark"]
+albedo_color = Color(0.46, 0.28, 0.16, 1)
+roughness = 0.88
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_log"]
+material = SubResource("StandardMaterial3D_bark")
+top_radius = 0.18
+bottom_radius = 0.2
+height = 1.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wood_end"]
+albedo_color = Color(0.86, 0.72, 0.44, 1)
+roughness = 0.7
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wood_end"]
+material = SubResource("StandardMaterial3D_wood_end")
+top_radius = 0.17
+bottom_radius = 0.17
+height = 0.02
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact"]
+size = Vector3(1.8, 0.75, 0.75)
+
+[node name="LogItem" type="StaticBody3D"]
+collision_layer = 4
+collision_mask = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("CylinderShape3D_log")
+
+[node name="TrunkMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.2, 0)
+mesh = SubResource("CylinderMesh_log")
+
+[node name="EndCap1" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.8, 0.2, 0)
+mesh = SubResource("CylinderMesh_wood_end")
+
+[node name="EndCap2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -0.8, 0.2, 0)
+mesh = SubResource("CylinderMesh_wood_end")
+
+[node name="InteractionArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+shape = SubResource("BoxShape3D_interact")
+
+[node name="LogPickup" type="Node" parent="InteractionArea" node_paths=PackedStringArray("item_root")]
+script = ExtResource("1_log_pickup")
+item_root = NodePath("../..")

@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/environment/camp_heat_emitter.gd" id="1_heat"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stones"]
+albedo_color = Color(0.42, 0.44, 0.42, 1)
+roughness = 0.9
+
+[sub_resource type="TorusMesh" id="TorusMesh_stones"]
+material = SubResource("StandardMaterial3D_stones")
+inner_radius = 0.6
+outer_radius = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_embers"]
+albedo_color = Color(0.15, 0.08, 0.05, 1)
+emission_enabled = true
+emission = Color(1, 0.35, 0.05, 1)
+emission_energy_multiplier = 3.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_embers"]
+material = SubResource("StandardMaterial3D_embers")
+top_radius = 0.55
+bottom_radius = 0.55
+height = 0.15
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_charred_log"]
+albedo_color = Color(0.2, 0.14, 0.1, 1)
+roughness = 0.95
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_charred_log"]
+material = SubResource("StandardMaterial3D_charred_log")
+top_radius = 0.08
+bottom_radius = 0.1
+height = 0.9
+
+[node name="Campfire" type="Node3D"]
+
+[node name="StoneRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+mesh = SubResource("TorusMesh_stones")
+
+[node name="Embers" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+mesh = SubResource("CylinderMesh_embers")
+
+[node name="LogA" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0.18, 0)
+mesh = SubResource("CylinderMesh_charred_log")
+
+[node name="LogB" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 0, 0.18, 0)
+mesh = SubResource("CylinderMesh_charred_log")
+
+[node name="FireLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+light_color = Color(1, 0.58, 0.22, 1)
+light_energy = 2.0
+omni_range = 7.5
+omni_attenuation = 1.2
+
+[node name="CampHeatEmitter" type="Node3D" parent="."]
+script = ExtResource("1_heat")
+stimulus_type = "HEAT"
+emit_interval = 3.0

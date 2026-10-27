@@ -1,0 +1,83 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/interaction/ghost_wall_blueprint.gd" id="1_ghost_wall"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
+size = Vector3(2.5, 2.6, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact"]
+size = Vector3(2.7, 2.7, 1.0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ghost"]
+transparency = 1
+albedo_color = Color(0.15, 0.78, 0.95, 0.45)
+roughness = 0.2
+emission_enabled = true
+emission = Color(0.1, 0.65, 0.95, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_ghost"]
+material = SubResource("StandardMaterial3D_ghost")
+size = Vector3(2.4, 2.5, 0.35)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wood"]
+albedo_color = Color(0.46, 0.30, 0.17, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_palisade_log"]
+material = SubResource("StandardMaterial3D_wood")
+top_radius = 0.12
+bottom_radius = 0.22
+height = 2.6
+
+[node name="GhostWall" type="StaticBody3D"]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+shape = SubResource("BoxShape3D_wall")
+disabled = true
+
+[node name="GhostMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+mesh = SubResource("BoxMesh_ghost")
+
+[node name="CompletedMesh" type="Node3D" parent="."]
+visible = false
+
+[node name="Log1" type="MeshInstance3D" parent="CompletedMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.85, 1.3, 0)
+mesh = SubResource("CylinderMesh_palisade_log")
+
+[node name="Log2" type="MeshInstance3D" parent="CompletedMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.42, 1.4, 0)
+mesh = SubResource("CylinderMesh_palisade_log")
+
+[node name="Log3" type="MeshInstance3D" parent="CompletedMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+mesh = SubResource("CylinderMesh_palisade_log")
+
+[node name="Log4" type="MeshInstance3D" parent="CompletedMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.42, 1.4, 0)
+mesh = SubResource("CylinderMesh_palisade_log")
+
+[node name="Log5" type="MeshInstance3D" parent="CompletedMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 1.3, 0)
+mesh = SubResource("CylinderMesh_palisade_log")
+
+[node name="InteractionArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+shape = SubResource("BoxShape3D_interact")
+
+[node name="GhostWallBlueprint" type="Node" parent="InteractionArea" node_paths=PackedStringArray("ghost_mesh", "completed_mesh", "solid_collision", "interaction_area")]
+script = ExtResource("1_ghost_wall")
+required_logs = 4
+ghost_mesh = NodePath("../../GhostMesh")
+completed_mesh = NodePath("../../CompletedMesh")
+solid_collision = NodePath("../../CollisionShape3D")
+interaction_area = NodePath("..")

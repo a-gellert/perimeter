@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pier_wood"]
+albedo_color = Color(0.4, 0.28, 0.18, 1)
+roughness = 0.92
+
+[sub_resource type="BoxMesh" id="BoxMesh_deck"]
+material = SubResource("StandardMaterial3D_pier_wood")
+size = Vector3(3.2, 0.2, 14.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_deck"]
+size = Vector3(3.2, 0.2, 14.0)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pile"]
+material = SubResource("StandardMaterial3D_pier_wood")
+top_radius = 0.15
+bottom_radius = 0.15
+height = 4.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_pile"]
+height = 4.0
+radius = 0.15
+
+[node name="FishingPier" type="StaticBody3D"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="DeckCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+shape = SubResource("BoxShape3D_deck")
+
+[node name="DeckMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("BoxMesh_deck")
+
+[node name="Pile1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, -1.8, 5.0)
+mesh = SubResource("CylinderMesh_pile")
+
+[node name="Pile2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, -1.8, 5.0)
+mesh = SubResource("CylinderMesh_pile")
+
+[node name="Pile3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, -1.8, -5.0)
+mesh = SubResource("CylinderMesh_pile")
+
+[node name="Pile4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, -1.8, -5.0)
+mesh = SubResource("CylinderMesh_pile")

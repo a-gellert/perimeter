@@ -1,0 +1,80 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/ai/survivor_npc.gd" id="1_npc"]
+[ext_resource type="Script" path="res://scripts/interaction/npc_interaction.gd" id="2_interact"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_npc"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jacket"]
+albedo_color = Color(0.65, 0.25, 0.18, 1)
+roughness = 0.9
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_npc"]
+material = SubResource("StandardMaterial3D_jacket")
+radius = 0.38
+height = 1.75
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hat"]
+albedo_color = Color(0.3, 0.22, 0.16, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hat"]
+material = SubResource("StandardMaterial3D_hat")
+size = Vector3(0.5, 0.28, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_torch_wood"]
+albedo_color = Color(0.35, 0.2, 0.12, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_torch"]
+material = SubResource("StandardMaterial3D_torch_wood")
+top_radius = 0.04
+bottom_radius = 0.03
+height = 0.6
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_npc_interact"]
+size = Vector3(1.6, 2.0, 1.6)
+
+[node name="SurvivorNPC" type="CharacterBody3D" node_paths=PackedStringArray("torch_light", "torch_mesh")]
+collision_layer = 32
+collision_mask = 5
+script = ExtResource("1_npc")
+torch_light = NodePath("Torch/TorchLight")
+torch_mesh = NodePath("Torch")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_npc")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("CapsuleMesh_npc")
+
+[node name="Hat" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+mesh = SubResource("BoxMesh_hat")
+
+[node name="Torch" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 1.1, 0.3)
+visible = false
+
+[node name="Handle" type="MeshInstance3D" parent="Torch"]
+mesh = SubResource("CylinderMesh_torch")
+
+[node name="TorchLight" type="OmniLight3D" parent="Torch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+light_color = Color(1, 0.65, 0.25, 1)
+light_energy = 2.2
+omni_range = 8.0
+
+[node name="InteractionArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+shape = SubResource("BoxShape3D_npc_interact")
+
+[node name="NPCInteraction" type="Node" parent="InteractionArea" node_paths=PackedStringArray("npc")]
+script = ExtResource("2_interact")
+npc = NodePath("../..")

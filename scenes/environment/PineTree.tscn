@@ -1,0 +1,80 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/interaction/choppable_tree.gd" id="1_tree"]
+[ext_resource type="PackedScene" path="res://scenes/items/LogItem.tscn" id="2_log_scene"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_trunk"]
+height = 6.0
+radius = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_trunk"]
+albedo_color = Color(0.44, 0.27, 0.16, 1)
+roughness = 0.92
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_trunk"]
+material = SubResource("StandardMaterial3D_trunk")
+top_radius = 0.22
+bottom_radius = 0.45
+height = 6.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_needles"]
+albedo_color = Color(0.14, 0.35, 0.22, 1)
+roughness = 0.85
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tier1"]
+material = SubResource("StandardMaterial3D_needles")
+top_radius = 0.1
+bottom_radius = 2.2
+height = 2.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tier2"]
+material = SubResource("StandardMaterial3D_needles")
+top_radius = 0.08
+bottom_radius = 1.7
+height = 2.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_tier3"]
+material = SubResource("StandardMaterial3D_needles")
+top_radius = 0.02
+bottom_radius = 1.2
+height = 2.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact"]
+size = Vector3(1.6, 3.5, 1.6)
+
+[node name="PineTree" type="StaticBody3D"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+shape = SubResource("CylinderShape3D_trunk")
+
+[node name="Trunk" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+mesh = SubResource("CylinderMesh_trunk")
+
+[node name="Tier1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, 0)
+mesh = SubResource("CylinderMesh_tier1")
+
+[node name="Tier2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.6, 0)
+mesh = SubResource("CylinderMesh_tier2")
+
+[node name="Tier3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.8, 0)
+mesh = SubResource("CylinderMesh_tier3")
+
+[node name="InteractionArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+shape = SubResource("BoxShape3D_interact")
+
+[node name="ChoppableTree" type="Node" parent="InteractionArea"]
+script = ExtResource("1_tree")
+log_scene = ExtResource("2_log_scene")
+logs_to_spawn = 2

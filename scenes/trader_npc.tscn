@@ -1,0 +1,87 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://scripts/trader_npc.gd" id="1_trader"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_trader"]
+radius = 0.42
+height = 1.85
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_coat"]
+albedo_color = Color(0.18, 0.17, 0.16, 1)
+roughness = 0.85
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_trader"]
+material = SubResource("StandardMaterial3D_coat")
+radius = 0.4
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_backpack"]
+albedo_color = Color(0.36, 0.24, 0.14, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_backpack"]
+material = SubResource("StandardMaterial3D_backpack")
+size = Vector3(0.65, 0.8, 0.45)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mask"]
+albedo_color = Color(0.25, 0.26, 0.28, 1)
+metallic = 0.8
+roughness = 0.35
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mask"]
+material = SubResource("StandardMaterial3D_mask")
+top_radius = 0.12
+bottom_radius = 0.14
+height = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lantern"]
+albedo_color = Color(1, 0.85, 0.4, 1)
+emission_enabled = true
+emission = Color(1, 0.8, 0.3, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_lantern"]
+material = SubResource("StandardMaterial3D_lantern")
+size = Vector3(0.2, 0.28, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact"]
+size = Vector3(2.0, 2.2, 2.0)
+
+[node name="TraderNPC" type="CharacterBody3D" node_paths=PackedStringArray("lantern_light")]
+collision_layer = 36
+collision_mask = 5
+script = ExtResource("1_trader")
+lantern_light = NodePath("Lantern/LanternLight")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.925, 0)
+shape = SubResource("CapsuleShape3D_trader")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("CapsuleMesh_trader")
+
+[node name="BackpackMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -0.32)
+mesh = SubResource("BoxMesh_backpack")
+
+[node name="GasMaskMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.45, 0.32)
+mesh = SubResource("CylinderMesh_mask")
+
+[node name="Lantern" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48, 0.9, 0.3)
+mesh = SubResource("BoxMesh_lantern")
+
+[node name="LanternLight" type="OmniLight3D" parent="Lantern"]
+light_color = Color(1, 0.75, 0.35, 1)
+light_energy = 2.0
+omni_range = 7.0
+
+[node name="InteractionArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+shape = SubResource("BoxShape3D_interact")

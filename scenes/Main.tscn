@@ -1,0 +1,213 @@
+[gd_scene format=3 uid="uid://dltlu6ietr8mr"]
+
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/camera/HybridCameraRig.tscn" id="2_camera_rig"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="3_hud"]
+[ext_resource type="Script" uid="uid://ir0xb7cr5725" path="res://scripts/environment/time_manager.gd" id="4_time_mgr"]
+[ext_resource type="Script" uid="uid://bphu8njq68el1" path="res://scripts/environment/taiga_lighting.gd" id="5_lighting"]
+[ext_resource type="PackedScene" path="res://scenes/environment/PineTree.tscn" id="6_tree"]
+[ext_resource type="PackedScene" path="res://scenes/items/LogItem.tscn" id="7_log"]
+[ext_resource type="PackedScene" path="res://scenes/buildings/GhostWall.tscn" id="8_ghost_wall"]
+[ext_resource type="PackedScene" path="res://scenes/buildings/WardenCabin.tscn" id="9_cabin"]
+[ext_resource type="PackedScene" path="res://scenes/environment/Campfire.tscn" id="10_fire"]
+[ext_resource type="PackedScene" path="res://scenes/buildings/WardenBed.tscn" id="11_bed"]
+[ext_resource type="PackedScene" path="res://scenes/npcs/SurvivorNPC.tscn" id="12_npc"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/SleeperMutant.tscn" id="13_mutant"]
+[ext_resource type="PackedScene" path="res://scenes/world_map_bounds.tscn" id="14_bounds"]
+[ext_resource type="Script" uid="uid://brk4hnqae6nej" path="res://scripts/zone_audio_ambience.gd" id="15_ambience"]
+[ext_resource type="PackedScene" path="res://scenes/poi_marker.tscn" id="16_poi"]
+[ext_resource type="PackedScene" path="res://scenes/mutant_sleeper.tscn" id="17_mutant_sleeper"]
+[ext_resource type="PackedScene" path="res://scenes/deer_prey.tscn" id="18_deer"]
+[ext_resource type="Script" uid="uid://chkser7w07lno" path="res://scripts/environment/glacial_river.gd" id="19_river"]
+[ext_resource type="Script" uid="uid://c51j6twmt8yxm" path="res://scripts/barter_system.gd" id="20_barter"]
+[ext_resource type="PackedScene" path="res://scenes/spore_canning_station.tscn" id="21_canning"]
+[ext_resource type="PackedScene" path="res://scenes/trader_npc.tscn" id="22_trader"]
+[ext_resource type="PackedScene" path="res://scenes/resource_pickup.tscn" id="23_pickup"]
+[ext_resource type="PackedScene" path="res://scenes/mercenary_sentry.tscn" id="24_sentry"]
+[ext_resource type="PackedScene" path="res://scenes/environment/TerrainValley.tscn" id="25_terrain"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
+sky_top_color = Color(0.22, 0.45, 0.72, 1)
+sky_horizon_color = Color(0.88, 0.7, 0.52, 1)
+ground_bottom_color = Color(0.12, 0.16, 0.14, 1)
+ground_horizon_color = Color(0.38, 0.48, 0.44, 1)
+
+[sub_resource type="Sky" id="Sky_taiga"]
+sky_material = SubResource("ProceduralSkyMaterial_sky")
+
+[sub_resource type="Environment" id="Environment_taiga"]
+background_mode = 2
+sky = SubResource("Sky_taiga")
+ambient_light_source = 2
+ambient_light_color = Color(0.3, 0.38, 0.45, 1)
+ambient_light_sky_contribution = 0.45
+tonemap_mode = 3
+tonemap_exposure = 1.18
+glow_enabled = true
+glow_bloom = 0.12
+fog_enabled = true
+fog_light_color = Color(0.48, 0.58, 0.62, 1)
+fog_density = 0.007
+fog_aerial_perspective = 0.45
+fog_sky_affect = 0.25
+
+[node name="Main" type="Node3D" unique_id=1363332154]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=443019111]
+environment = SubResource("Environment_taiga")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1244234823]
+transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 20, 0)
+light_color = Color(1, 0.92, 0.78, 1)
+light_energy = 1.8
+shadow_enabled = true
+shadow_blur = 1.2
+
+[node name="TimeManager" type="Node" parent="." unique_id=371631359]
+script = ExtResource("4_time_mgr")
+start_hour = 8.5
+
+[node name="TaigaLighting" type="Node" parent="." unique_id=1872204176 node_paths=PackedStringArray("sun_light", "world_env")]
+script = ExtResource("5_lighting")
+sun_light = NodePath("../DirectionalLight3D")
+world_env = NodePath("../WorldEnvironment")
+
+[node name="TerrainValley" parent="." unique_id=1526712559 instance=ExtResource("25_terrain")]
+
+[node name="WardenCabin" parent="." unique_id=720803264 instance=ExtResource("9_cabin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="WardenBed" parent="." unique_id=898635721 instance=ExtResource("11_bed")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0.3, 11.5)
+
+[node name="Campfire" parent="." unique_id=273124098 instance=ExtResource("10_fire")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 5.5)
+
+[node name="SurvivorNPC" parent="." unique_id=1695587461 instance=ExtResource("12_npc")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 2.5, 0, 5)
+
+[node name="Player" parent="." unique_id=835390117 instance=ExtResource("1_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+
+[node name="HybridCameraRig" parent="." unique_id=728580929 node_paths=PackedStringArray("fpv_mount") instance=ExtResource("2_camera_rig")]
+fpv_mount = NodePath("../Player/Head")
+
+[node name="HUD" parent="." unique_id=836505331 instance=ExtResource("3_hud")]
+
+[node name="Environment" type="Node3D" parent="." unique_id=797732184]
+
+[node name="PineTree1" parent="Environment" unique_id=1791828854 instance=ExtResource("6_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -8)
+
+[node name="PineTree2" parent="Environment" unique_id=169102552 instance=ExtResource("6_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -4)
+
+[node name="PineTree3" parent="Environment" unique_id=1484143588 instance=ExtResource("6_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -12)
+
+[node name="PineTree4" parent="Environment" unique_id=103272595 instance=ExtResource("6_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, -6)
+
+[node name="PineTree5" parent="Environment" unique_id=913101938 instance=ExtResource("6_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 8)
+
+[node name="PineTree6" parent="Environment" unique_id=265092376 instance=ExtResource("6_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 10)
+
+[node name="Logs" type="Node3D" parent="." unique_id=294946635]
+
+[node name="LogItem1" parent="Logs" unique_id=704901300 instance=ExtResource("7_log")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3)
+
+[node name="LogItem2" parent="Logs" unique_id=693485607 instance=ExtResource("7_log")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -1.2, 0, -4.2)
+
+[node name="PerimeterBlueprints" type="Node3D" parent="." unique_id=1531500255]
+
+[node name="GhostWall1" parent="PerimeterBlueprints" unique_id=1002025895 instance=ExtResource("8_ghost_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -15)
+
+[node name="GhostWall2" parent="PerimeterBlueprints" unique_id=892531279 instance=ExtResource("8_ghost_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, -15)
+
+[node name="GhostWall3" parent="PerimeterBlueprints" unique_id=291879977 instance=ExtResource("8_ghost_wall")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, -15)
+
+[node name="Enemies" type="Node3D" parent="." unique_id=1994765504]
+
+[node name="SleeperMutant" parent="Enemies" unique_id=276041527 instance=ExtResource("13_mutant")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -18)
+
+[node name="MutantSleeper" parent="Enemies" unique_id=243540862 instance=ExtResource("17_mutant_sleeper")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -4)
+
+[node name="Fauna" type="Node3D" parent="." unique_id=699799732]
+
+[node name="DeerPrey" parent="Fauna" unique_id=1451545211 instance=ExtResource("18_deer")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 18, 0, 12)
+
+[node name="GlacialRiver" type="Node3D" parent="." unique_id=638631641]
+script = ExtResource("19_river")
+
+[node name="WorldMapBounds" parent="." unique_id=908149055 instance=ExtResource("14_bounds")]
+
+[node name="ZoneAudioAmbience" type="AudioStreamPlayer" parent="." unique_id=1787415722]
+script = ExtResource("15_ambience")
+
+[node name="POIMarkers" type="Node3D" parent="." unique_id=820693066]
+
+[node name="OutpostCabinPOI" parent="POIMarkers" unique_id=1875267163 instance=ExtResource("16_poi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+poi_id = "outpost_cabin"
+poi_name = "Дом Егеря"
+
+[node name="AmberQuarryPOI" parent="POIMarkers" unique_id=1858171775 instance=ExtResource("16_poi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 24, -380)
+poi_id = "amber_quarry"
+poi_name = "Серные Штольни"
+zone_type = 1
+
+[node name="GasStationPOI" parent="POIMarkers" unique_id=1139933162 instance=ExtResource("16_poi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -320, 1.2, -40)
+poi_id = "gas_station"
+poi_name = "АЗС «Северная»"
+zone_type = 3
+
+[node name="FishingPierPOI" parent="POIMarkers" unique_id=963197984 instance=ExtResource("16_poi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -8, 310)
+poi_id = "fishing_pier"
+poi_name = "Рыбацкие Мостки"
+zone_type = 2
+
+[node name="AncientGrovePOI" parent="POIMarkers" unique_id=2045941981 instance=ExtResource("16_poi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 340, 3, 80)
+poi_id = "ancient_grove"
+poi_name = "Медвежий Бурелом"
+zone_type = 4
+
+[node name="BarterSystem" type="Node" parent="." unique_id=983069061]
+script = ExtResource("20_barter")
+
+[node name="SporeCanningStation" parent="." unique_id=875125359 instance=ExtResource("21_canning")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 8.5)
+
+[node name="TraderNPC" parent="." unique_id=1939032224 instance=ExtResource("22_trader")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -16)
+
+[node name="MercenarySentry" parent="." unique_id=1778842166 instance=ExtResource("24_sentry")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 5, 0, -14)
+
+[node name="Pickups" type="Node3D" parent="." unique_id=1680688375]
+
+[node name="ScrapPickup" parent="Pickups" unique_id=2131493790 instance=ExtResource("23_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 4)
+amount = 15
+
+[node name="FuelPickup" parent="Pickups" unique_id=183897631 instance=ExtResource("23_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 7)
+resource_type = "fuel"
+
+[node name="AmberPickup" parent="Pickups" unique_id=1255186793 instance=ExtResource("23_pickup")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 24, -378)
+resource_type = "amber"
+amount = 3

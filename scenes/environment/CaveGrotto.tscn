@@ -1,0 +1,158 @@
+[gd_scene load_steps=12 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cavern_rock"]
+albedo_color = Color(0.24, 0.22, 0.2, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_amber"]
+albedo_color = Color(1, 0.65, 0.15, 1)
+emission_enabled = true
+emission = Color(1, 0.58, 0.08, 1)
+emission_energy_multiplier = 2.4
+roughness = 0.2
+refraction_enabled = true
+refraction_scale = 0.05
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
+size = Vector3(4, 8, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall"]
+material = SubResource("StandardMaterial3D_cavern_rock")
+size = Vector3(4, 8, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_roof"]
+size = Vector3(16, 3, 24)
+
+[sub_resource type="BoxMesh" id="BoxMesh_roof"]
+material = SubResource("StandardMaterial3D_cavern_rock")
+size = Vector3(16, 3, 24)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_arch"]
+size = Vector3(8, 3, 4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_arch"]
+material = SubResource("StandardMaterial3D_cavern_rock")
+size = Vector3(8, 3, 4)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_stalactite"]
+material = SubResource("StandardMaterial3D_cavern_rock")
+top_radius = 0.45
+bottom_radius = 0.05
+height = 2.8
+
+[sub_resource type="PrismMesh" id="PrismMesh_amber_crystal"]
+material = SubResource("StandardMaterial3D_amber")
+size = Vector3(0.6, 1.4, 0.6)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cave_area"]
+radius = 14.0
+
+[node name="CaveGrotto" type="Node3D"]
+
+[node name="EntranceArch" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EntranceArch"]
+shape = SubResource("BoxShape3D_arch")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="EntranceArch"]
+mesh = SubResource("BoxMesh_arch")
+
+[node name="LeftPillar" type="StaticBody3D" parent="."]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -5, 3.5, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftPillar"]
+shape = SubResource("BoxShape3D_wall")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftPillar"]
+mesh = SubResource("BoxMesh_wall")
+
+[node name="RightPillar" type="StaticBody3D" parent="."]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 5, 3.5, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightPillar"]
+shape = SubResource("BoxShape3D_wall")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RightPillar"]
+mesh = SubResource("BoxMesh_wall")
+
+[node name="TunnelLeftWall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 3.5, -12)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TunnelLeftWall"]
+shape = SubResource("BoxShape3D_wall")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TunnelLeftWall"]
+mesh = SubResource("BoxMesh_wall")
+
+[node name="TunnelRightWall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 3.5, -12)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TunnelRightWall"]
+shape = SubResource("BoxShape3D_wall")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TunnelRightWall"]
+mesh = SubResource("BoxMesh_wall")
+
+[node name="TunnelBackWall" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 3.5, -22)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TunnelBackWall"]
+shape = SubResource("BoxShape3D_wall")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TunnelBackWall"]
+mesh = SubResource("BoxMesh_wall")
+
+[node name="CavernRoof" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, -10)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CavernRoof"]
+shape = SubResource("BoxShape3D_roof")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CavernRoof"]
+mesh = SubResource("BoxMesh_roof")
+
+[node name="Stalactite1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, -2, 5.8, -8)
+mesh = SubResource("CylinderMesh_stalactite")
+
+[node name="Stalactite2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 2.5, 5.5, -14)
+mesh = SubResource("CylinderMesh_stalactite")
+
+[node name="Stalactite3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.8, 0, 0, 0, -0.8, 6.99382e-08, 0, -6.99382e-08, -0.8, 0, 5.9, -17)
+mesh = SubResource("CylinderMesh_stalactite")
+
+[node name="AmberVein1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, -3.8, 1.2, -15)
+mesh = SubResource("PrismMesh_amber_crystal")
+
+[node name="AmberVein2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -3.6, 2.1, -15.4)
+mesh = SubResource("PrismMesh_amber_crystal")
+
+[node name="AmberVein3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 0, 1, 3.8, 1.5, -18)
+mesh = SubResource("PrismMesh_amber_crystal")
+
+[node name="AmberGlowLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -15)
+light_color = Color(1, 0.62, 0.12, 1)
+light_energy = 2.2
+omni_range = 14.0
+omni_attenuation = 1.2

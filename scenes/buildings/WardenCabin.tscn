@@ -1,0 +1,105 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://scripts/environment/camp_heat_emitter.gd" id="1_heat"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_log_wall"]
+albedo_color = Color(0.48, 0.31, 0.18, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_cabin_walls"]
+material = SubResource("StandardMaterial3D_log_wall")
+size = Vector3(7.0, 3.2, 5.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_roof"]
+albedo_color = Color(0.26, 0.18, 0.12, 1)
+roughness = 0.85
+
+[sub_resource type="PrismMesh" id="PrismMesh_roof"]
+material = SubResource("StandardMaterial3D_roof")
+left_to_right = 0.5
+size = Vector3(7.6, 2.0, 6.0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_porch_wood"]
+albedo_color = Color(0.55, 0.38, 0.22, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_porch_deck"]
+material = SubResource("StandardMaterial3D_porch_wood")
+size = Vector3(7.2, 0.3, 2.2)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_post"]
+material = SubResource("StandardMaterial3D_porch_wood")
+top_radius = 0.1
+bottom_radius = 0.12
+height = 2.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_chimney"]
+albedo_color = Color(0.22, 0.22, 0.25, 1)
+metallic = 0.4
+roughness = 0.6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_chimney"]
+material = SubResource("StandardMaterial3D_chimney")
+top_radius = 0.18
+bottom_radius = 0.2
+height = 2.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lantern_glass"]
+albedo_color = Color(1, 0.85, 0.3, 1)
+emission_enabled = true
+emission = Color(1, 0.75, 0.25, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_lantern"]
+material = SubResource("StandardMaterial3D_lantern_glass")
+size = Vector3(0.25, 0.35, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cabin"]
+size = Vector3(7.2, 4.5, 7.8)
+
+[node name="WardenCabin" type="StaticBody3D"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0.8)
+shape = SubResource("BoxShape3D_cabin")
+
+[node name="MainBuilding" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+mesh = SubResource("BoxMesh_cabin_walls")
+
+[node name="Roof" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2, 0)
+mesh = SubResource("PrismMesh_roof")
+
+[node name="PorchDeck" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 3.8)
+mesh = SubResource("BoxMesh_porch_deck")
+
+[node name="PostLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 1.55, 4.6)
+mesh = SubResource("CylinderMesh_post")
+
+[node name="PostRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 1.55, 4.6)
+mesh = SubResource("CylinderMesh_post")
+
+[node name="Chimney" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2, 4.8, -1.2)
+mesh = SubResource("CylinderMesh_chimney")
+
+[node name="SmokeHeatEmitter" type="Node3D" parent="Chimney"]
+script = ExtResource("1_heat")
+stimulus_type = "HEAT"
+emit_interval = 2.5
+
+[node name="Lantern" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 4.6)
+mesh = SubResource("BoxMesh_lantern")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lantern"]
+light_color = Color(1, 0.72, 0.35, 1)
+light_energy = 2.2
+omni_range = 9.0
+omni_attenuation = 1.3
