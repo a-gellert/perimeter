@@ -4,3 +4,5 @@
 
 [node name="TerrainValley" type="Node3D"]
 script = ExtResource("1_gen")
+map_size = 1000.0
+grid_subdivisions = 100

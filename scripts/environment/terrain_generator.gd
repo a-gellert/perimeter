@@ -90,7 +90,7 @@ func generate_all() -> void:
 	_build_terrain_mesh()
 	_build_river_water()
 	_build_cave_and_poi_structures()
-	_build_multimesh_vegetation()
+	_build_choppable_forest()
 	print("[TerrainGenerator] Landscape generation complete!")
 
 func _build_terrain_mesh() -> void:
@@ -289,100 +289,83 @@ func _build_cave_and_poi_structures() -> void:
 	if Engine.is_editor_hint():
 		pois_node.owner = self
 
-func _build_multimesh_vegetation() -> void:
-	var veg_node := Node3D.new()
-	veg_node.name = "VegetationScatter"
+func _build_choppable_forest() -> void:
+	var forest_node := Node3D.new()
+	forest_node.name = "ChoppableForest"
 
-	# Загрузка геометрии сосны для MultiMesh
-	var tree_scene: PackedScene = load("res://scenes/environment/PineTree.tscn")
-	var sample_tree: Node = tree_scene.instantiate() if tree_scene else null
-	var trunk_mesh: Mesh = null
-	var needles_mat: Material = null
-	if sample_tree:
-		var trunk_inst: MeshInstance3D = sample_tree.get_node_or_null("Trunk")
-		if trunk_inst:
-			trunk_mesh = trunk_inst.mesh
-		var tier1_inst: MeshInstance3D = sample_tree.get_node_or_null("Tier1")
-		if tier1_inst:
-			needles_mat = tier1_inst.mesh.surface_get_material(0)
-		sample_tree.queue_free()
+	var preset_pine: PackedScene = load("res://scenes/environment/trees/Tree_Pine_Tall.tscn")
+	var preset_cedar: PackedScene = load("res://scenes/environment/trees/Tree_Cedar_Giant.tscn")
+	var preset_birch: PackedScene = load("res://scenes/environment/trees/Tree_Birch.tscn")
+	var preset_deadwood: PackedScene = load("res://scenes/environment/trees/Tree_Deadwood.tscn")
+	var preset_larch: PackedScene = load("res://scenes/environment/trees/Tree_Larch.tscn")
 
-	# Простая сосновая замена для MultiMesh, если сцена сложная:
-	var pine_mesh := CylinderMesh.new()
-	pine_mesh.top_radius = 0.05
-	pine_mesh.bottom_radius = 1.8
-	pine_mesh.height = 7.5
-	var pine_mat := StandardMaterial3D.new()
-	pine_mat.albedo_color = Color(0.14, 0.28, 0.16, 1.0)
-	pine_mat.roughness = 0.88
-	pine_mesh.material = pine_mat
-
-	var mm := MultiMesh.new()
-	mm.transform_format = MultiMesh.TRANSFORM_3D
-	mm.mesh = pine_mesh
-
-	var tree_count: int = 1400
-	mm.instance_count = tree_count
-
-	# Псевдослучайный детерминированный разброс деревьев
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 42
 
-	var idx: int = 0
+	var target_tree_count: int = 180
+	var spawned: int = 0
 	var attempts: int = 0
-	while idx < tree_count and attempts < 10000:
+
+	while spawned < target_tree_count and attempts < 1600:
 		attempts += 1
-		var tx: float = rng.randf_range(-480.0, 480.0)
-		var tz: float = rng.randf_range(-480.0, 480.0)
+		var tx: float = rng.randf_range(-460.0, 460.0)
+		var tz: float = rng.randf_range(-460.0, 460.0)
 
-		# Исключаем кордон егеря (100х100м)
-		if absf(tx) < 55.0 and absf(tz) < 55.0:
+		# Не спавним внутри кордона егеря (100х100м)
+		if absf(tx) < 52.0 and absf(tz) < 52.0:
 			continue
 
-		# Исключаем русло реки
+		# Не спавним в воде реки
 		if tz > 130.0:
-			var r_center_x: float = get_river_center_x(tz)
-			if absf(tx - r_center_x) < 28.0:
-				continue # В воде деревья не растут
-
-		# Весовое распределение: восточная тайга (X > 100) и северные склоны
-		var is_east_taiga: bool = (tx > 80.0 and tz > -150.0 and tz < 160.0)
-		var is_north_slope: bool = (tz < -140.0 and tz > -360.0)
-		var is_west_town: bool = (tx < -80.0)
-
-		# В поселке деревьев мало
-		if is_west_town and rng.randf() > 0.25:
-			continue
-
-		# В тайге и на сопках плотность максимальная
-		if not is_east_taiga and not is_north_slope and rng.randf() > 0.35:
-			continue
+			var r_x: float = get_river_center_x(tz)
+			if absf(tx - r_x) < 28.0:
+				continue
 
 		var ty: float = get_height_at(tx, tz)
-
-		# На скалистых вершинах выше 30м деревья не растут
-		if ty > 30.0:
+		if ty > 32.0 or ty < -5.5:
 			continue
 
-		var scale_factor: float = rng.randf_range(0.75, 1.35)
-		var rot_y: float = rng.randf_range(0.0, TAU)
+		# Выбор пресета в зависимости от биома
+		var selected_scene: PackedScene = preset_pine
 
-		var t := Transform3D()
-		t = t.scaled(Vector3(scale_factor, scale_factor, scale_factor))
-		t = t.rotated(Vector3.UP, rot_y)
-		t.origin = Vector3(tx, ty + (pine_mesh.height * scale_factor * 0.48), tz)
+		if tz < -140.0:
+			# Северные скалы: горная лиственница и сухостой
+			selected_scene = preset_larch if rng.randf() > 0.35 else preset_deadwood
+		elif tz > 140.0:
+			# Пойма реки: березы и лиственницы
+			selected_scene = preset_birch if rng.randf() > 0.45 else preset_larch
+		elif tx > 80.0:
+			# Восточная тайга: могучие кедры и высокие сосны
+			var roll: float = rng.randf()
+			if roll < 0.45:
+				selected_scene = preset_cedar
+			elif roll < 0.8:
+				selected_scene = preset_pine
+			else:
+				selected_scene = preset_birch
+		elif tx < -80.0:
+			# Западный поселок: сухостой и редкие березы
+			selected_scene = preset_deadwood if rng.randf() > 0.4 else preset_birch
+		else:
+			# Буфер вокруг базы (периметр): сосны, березы, кедры
+			var roll: float = rng.randf()
+			if roll < 0.4: selected_scene = preset_pine
+			elif roll < 0.7: selected_scene = preset_birch
+			else: selected_scene = preset_cedar
 
-		mm.set_instance_transform(idx, t)
-		idx += 1
+		if selected_scene:
+			var tree_inst := selected_scene.instantiate() as Node3D
+			tree_inst.name = "Tree_%d" % spawned
+			var scale_rnd: float = rng.randf_range(0.85, 1.25)
+			tree_inst.scale = Vector3(scale_rnd, scale_rnd, scale_rnd)
+			tree_inst.rotation.y = rng.randf_range(0.0, TAU)
+			tree_inst.position = Vector3(tx, ty, tz)
 
-	mm.instance_count = idx # Реальное количество
+			forest_node.add_child(tree_inst)
+			if Engine.is_editor_hint():
+				tree_inst.owner = self
+			spawned += 1
 
-	var mm_inst := MultiMeshInstance3D.new()
-	mm_inst.name = "TaigaMultiMesh"
-	mm_inst.multimesh = mm
-	veg_node.add_child(mm_inst)
-
-	add_child(veg_node)
+	add_child(forest_node)
 	if Engine.is_editor_hint():
-		veg_node.owner = self
-		mm_inst.owner = self
+		forest_node.owner = self

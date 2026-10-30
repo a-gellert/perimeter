@@ -20,3 +20,9 @@ signal breach_alarm_triggered(location: Vector3)
 # Construction
 signal blueprint_placed(blueprint_node: Node)
 signal structure_completed(structure_node: Node)
+
+# Game State
+signal player_died
+signal game_restarted
+signal night_raid_started(wave_count: int)
+signal night_raid_ended

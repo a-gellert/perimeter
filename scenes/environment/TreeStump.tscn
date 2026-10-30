@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_stump"]
+height = 0.55
+radius = 0.42
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stump_bark"]
+albedo_color = Color(0.38, 0.24, 0.14, 1)
+roughness = 0.92
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_stump"]
+material = SubResource("StandardMaterial3D_stump_bark")
+top_radius = 0.38
+bottom_radius = 0.45
+height = 0.55
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rings"]
+albedo_color = Color(0.78, 0.65, 0.42, 1)
+roughness = 0.75
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rings"]
+material = SubResource("StandardMaterial3D_rings")
+top_radius = 0.36
+bottom_radius = 0.36
+height = 0.02
+
+[node name="TreeStump" type="StaticBody3D"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.275, 0)
+shape = SubResource("CylinderShape3D_stump")
+
+[node name="StumpMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.275, 0)
+mesh = SubResource("CylinderMesh_stump")
+
+[node name="RingsMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+mesh = SubResource("CylinderMesh_rings")

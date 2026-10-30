@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pier_wood"]
 albedo_color = Color(0.4, 0.28, 0.18, 1)
@@ -6,10 +6,10 @@ roughness = 0.92
 
 [sub_resource type="BoxMesh" id="BoxMesh_deck"]
 material = SubResource("StandardMaterial3D_pier_wood")
-size = Vector3(3.2, 0.2, 14.0)
+size = Vector3(3.2, 0.2, 14)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_deck"]
-size = Vector3(3.2, 0.2, 14.0)
+size = Vector3(3.2, 0.2, 14)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_pile"]
 material = SubResource("StandardMaterial3D_pier_wood")
@@ -17,9 +17,13 @@ top_radius = 0.15
 bottom_radius = 0.15
 height = 4.0
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_pile"]
-height = 4.0
-radius = 0.15
+[sub_resource type="BoxMesh" id="BoxMesh_post"]
+material = SubResource("StandardMaterial3D_pier_wood")
+size = Vector3(0.12, 1.0, 0.12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rail"]
+material = SubResource("StandardMaterial3D_pier_wood")
+size = Vector3(0.08, 0.08, 12.0)
 
 [node name="FishingPier" type="StaticBody3D"]
 collision_layer = 1
@@ -34,17 +38,49 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 mesh = SubResource("BoxMesh_deck")
 
 [node name="Pile1" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, -1.8, 5.0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, -1.8, 5)
 mesh = SubResource("CylinderMesh_pile")
 
 [node name="Pile2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, -1.8, 5.0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, -1.8, 5)
 mesh = SubResource("CylinderMesh_pile")
 
 [node name="Pile3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, -1.8, -5.0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, -1.8, -5)
 mesh = SubResource("CylinderMesh_pile")
 
 [node name="Pile4" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, -1.8, -5.0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, -1.8, -5)
 mesh = SubResource("CylinderMesh_pile")
+
+[node name="PostL1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.7, -5)
+mesh = SubResource("BoxMesh_post")
+
+[node name="PostL2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.7, 0)
+mesh = SubResource("BoxMesh_post")
+
+[node name="PostL3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.7, 5)
+mesh = SubResource("BoxMesh_post")
+
+[node name="PostR1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.7, -5)
+mesh = SubResource("BoxMesh_post")
+
+[node name="PostR2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.7, 0)
+mesh = SubResource("BoxMesh_post")
+
+[node name="PostR3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.7, 5)
+mesh = SubResource("BoxMesh_post")
+
+[node name="RailLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.15, 0)
+mesh = SubResource("BoxMesh_rail")
+
+[node name="RailRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.15, 0)
+mesh = SubResource("BoxMesh_rail")

@@ -12,6 +12,7 @@ func _ready() -> void:
 	_register_key_action("jump", [KEY_SPACE])
 	_register_mouse_action("primary_action", MOUSE_BUTTON_LEFT)
 	_register_mouse_action("secondary_action", MOUSE_BUTTON_RIGHT)
+	_register_key_action("ui_cancel", [KEY_ESCAPE])
 
 func _register_key_action(action_name: StringName, keys: Array[Key]) -> void:
 	if not InputMap.has_action(action_name):
