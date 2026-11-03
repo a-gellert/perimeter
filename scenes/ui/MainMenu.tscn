@@ -1,0 +1,128 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_main_menu"]
+[ext_resource type="PackedScene" path="res://scenes/ui/SettingsMenu.tscn" id="2_settings"]
+
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("continue_button", "new_game_button", "settings_button", "quit_button", "save_info_label", "settings_menu")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_main_menu")
+continue_button = NodePath("MarginContainer/VBoxContainer/MenuButtons/ContinueButton")
+new_game_button = NodePath("MarginContainer/VBoxContainer/MenuButtons/NewGameButton")
+settings_button = NodePath("MarginContainer/VBoxContainer/MenuButtons/SettingsButton")
+quit_button = NodePath("MarginContainer/VBoxContainer/MenuButtons/QuitButton")
+save_info_label = NodePath("MarginContainer/VBoxContainer/MenuButtons/SaveInfoLabel")
+settings_menu = NodePath("SettingsMenu")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.07, 0.09, 1)
+
+[node name="Vignette" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.01, 0.02, 0.03, 0.45)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 28
+
+[node name="TitleBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="GameTitle" type="Label" parent="MarginContainer/VBoxContainer/TitleBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.92, 0.85, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 46
+text = "ПЕРИМЕТР"
+
+[node name="GameSubtitle" type="Label" parent="MarginContainer/VBoxContainer/TitleBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.68, 0.45, 1)
+theme_override_font_sizes/font_size = 18
+text = "КОРДОН ЕГЕРЯ  |  ЗОНА КАРАНТИНА"
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="MenuButtons" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 12
+
+[node name="ContinueButton" type="Button" parent="MarginContainer/VBoxContainer/MenuButtons"]
+custom_minimum_size = Vector2(280, 42)
+layout_mode = 2
+text = "Продолжить"
+
+[node name="SaveInfoLabel" type="Label" parent="MarginContainer/VBoxContainer/MenuButtons"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.72, 0.75, 0.85)
+theme_override_font_sizes/font_size = 12
+text = "Последнее сохранение: -"
+
+[node name="NewGameButton" type="Button" parent="MarginContainer/VBoxContainer/MenuButtons"]
+custom_minimum_size = Vector2(280, 42)
+layout_mode = 2
+text = "Новая игра"
+
+[node name="SettingsButton" type="Button" parent="MarginContainer/VBoxContainer/MenuButtons"]
+custom_minimum_size = Vector2(280, 42)
+layout_mode = 2
+text = "Настройки"
+
+[node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer/MenuButtons"]
+custom_minimum_size = Vector2(280, 42)
+layout_mode = 2
+text = "Выход"
+
+[node name="BottomInfo" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="VersionLabel" type="Label" parent="MarginContainer/VBoxContainer/BottomInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.5, 0.55, 0.6, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Версия 0.5.0-alpha (Godot 4.x) — Прототип Кордона"
+
+[node name="AuthorLabel" type="Label" parent="MarginContainer/VBoxContainer/BottomInfo"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.55, 0.6, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Perimeter Team"
+
+[node name="SettingsMenu" parent="." instance=ExtResource("2_settings")]
+visible = false

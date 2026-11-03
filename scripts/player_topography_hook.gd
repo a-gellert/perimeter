@@ -16,9 +16,10 @@ func _physics_process(dt: float) -> void:
 		return
 
 	# 1. Проверка зоны и штраф за уклон
-	if player.is_on_floor() and (Engine.has_singleton("WorldTopography") or get_node_or_null("/root/WorldTopography")):
+	var topo := get_node_or_null("/root/WorldTopography")
+	if player.is_on_floor() and topo:
 		var current_floor_normal: Vector3 = player.get_floor_normal()
-		var slope_severity: float = WorldTopography.evaluate_slope(current_floor_normal)
+		var slope_severity: float = topo.evaluate_slope(current_floor_normal)
 
 		# Подъем по крутому серпантину к скалам расходует больше сил
 		if slope_severity > 0.25 and player.velocity.length() > 0.5:
@@ -32,12 +33,13 @@ func _physics_process(dt: float) -> void:
 		_update_topography()
 
 func _update_topography() -> void:
-	if not player or not (Engine.has_singleton("WorldTopography") or get_node_or_null("/root/WorldTopography")):
+	var topo := get_node_or_null("/root/WorldTopography")
+	if not player or not topo:
 		return
 
-	var new_zone: WorldZoneManager.ZoneType = WorldTopography.get_zone_at_position(player.global_position)
-	if new_zone != WorldTopography.current_zone:
-		WorldTopography.current_zone = new_zone
-		WorldTopography.emit_signal("zone_entered", new_zone, WorldTopography.get_zone_display_name(new_zone))
+	var new_zone: int = topo.get_zone_at_position(player.global_position)
+	if new_zone != topo.current_zone:
+		topo.current_zone = new_zone
+		topo.emit_signal("zone_entered", new_zone, topo.get_zone_display_name(new_zone))
 
-	WorldTopography.check_poi_proximity(player.global_position)
+	topo.check_poi_proximity(player.global_position)

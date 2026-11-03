@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/interaction/falling_tree.gd" id="1_falling"]
+[ext_resource type="PackedScene" path="res://scenes/items/LogItem.tscn" id="2_log"]
+[ext_resource type="PackedScene" path="res://scenes/environment/TreeStump.tscn" id="3_stump"]
+[ext_resource type="PackedScene" path="res://assets/just_survive/FBX/PineTree.fbx" id="4_pine_model"]
+
+[node name="FallingTree" type="Node3D"]
+script = ExtResource("1_falling")
+log_scene = ExtResource("2_log")
+stump_scene = ExtResource("3_stump")
+logs_to_spawn = 3
+
+[node name="ModelPivot" type="Node3D" parent="."]
+
+[node name="PineTreeModel" parent="ModelPivot" instance=ExtResource("4_pine_model")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)

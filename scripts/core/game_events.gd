@@ -5,6 +5,7 @@ extends Node
 # Camera & View
 signal camera_mode_changed(new_mode: int)
 signal request_mode_switch(desired_mode: int)
+signal ui_mode_changed(is_mobile: bool)
 
 # Player State
 signal stats_updated(hp: float, stamina: float, max_stamina: float, hunger: float)
@@ -13,6 +14,7 @@ signal context_action_updated(action_title: String, target: Node)
 
 # Environment & Time
 signal time_updated(hours: int, minutes: int, phase: int)
+signal time_continuous_updated(exact_hour: float)
 signal day_phase_changed(phase: int)
 signal request_sleep_dialog(bed_node: Node)
 signal breach_alarm_triggered(location: Vector3)

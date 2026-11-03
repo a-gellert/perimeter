@@ -1,0 +1,468 @@
+# -*- coding: utf-8 -*-
+import os
+
+aso_data = {
+    "German": {
+        "code": "de-DE",
+        "title": "Perimeter: 3D Waldüberleben",
+        "short": "Überlebe in der Taiga! Baue deine Basis, crafte und wehre Mutanten ab.",
+        "desc": """Betritt die raue Wildnis in **Perimeter: 3D Waldüberleben**, einem atmosphärischen Low-Poly Open-World-Survival-Spiel in einer sporenbefallenen Taiga.
+
+Du bist ein einsamer Ranger in einem unberührten, gefährlichen Wald. Am Tag fällst du Bäume, sammelst Ressourcen und baust deinen Außenposten aus. Bei Nacht verteidigst du deinen Perimeter gegen unerbittliche Horden von Sporen-Zombies und Raubtieren.
+
+Wirst du die Kälte und die Dunkelheit überleben?
+
+### 🌲 SPIEL-FEATURES:
+🪓 **HOLZFÄLLEN & CRAFTING**
+Fälle riesige Kiefern mit deiner Axt, trage schwere Baumstämme und sammle Schrott und Treibstoff. Crafte Werkzeuge, Fallen und Munition an der Werkbank.
+
+🏰 **BASISBAU & VERTEIDIGUNG**
+Errichte spitze Holzpalisaden, Wachtürme und verbarrikadierte Tore. Platziere Bärenfallen, um mutierte Angreifer aufzuhalten.
+
+🧟 **NÄCHTLICHE KÄMPFE & ACTION**
+Sobald die Sonne untergeht, greifen die Sporen-Zombies an. Feuere mit deinem Jagdgewehr, nutze Mündungsfeuer und schalte UV-Scheinwerfer ein, um die Infizierten zurückzudrängen.
+
+🎣 **FLUSS-ANGELN & BEDÜRFNISSE**
+Behalte Gesundheit, Ausdauer und Hunger im Auge. Wirf deine Angel im kalten Gletscherfluss aus, fange frische Forellen und koche Mahlzeiten am Lagerfeuer.
+
+📶 **100% OFFLINE SPIELBAR**
+Kein Internet nötig! Genieße das volle Survival-Erlebnis überall und jederzeit.
+
+Halte den Perimeter und lade **Perimeter: 3D Waldüberleben** jetzt herunter!"""
+    },
+    "Vietnamese": {
+        "code": "vi-VN",
+        "title": "Perimeter: Sinh Tồn Rừng 3D",
+        "short": "Sinh tồn trong rừng taiga! Xây căn cứ, chế tạo và đẩy lùi dị nhân.",
+        "desc": """Bước vào vùng hoang dã khắc nghiệt trong **Perimeter: Sinh Tồn Rừng 3D**, trò chơi sinh tồn thế giới mở phong cách low-poly lấy bối cảnh tại rừng taiga bị nhiễm bào tử độc hại.
+
+Bạn là người kiểm lâm đơn độc giữa thiên nhiên hiểm trở. Ban ngày, hãy chặt thông, thu thập tài nguyên và mở rộng tiền đồn. Khi màn đêm buông xuống, hãy bảo vệ vành đai phòng thủ trước những làn sóng thây ma đột biến hung hãn.
+
+Liệu bạn có thể sống sót và giữ vững căn cứ đến bình minh?
+
+### 🌲 TÍNH NĂNG NỔI BẬT:
+🪓 **ĐỐN GỖ & CHẾ TẠO DỤNG CỤ**
+Dùng rìu đốn những cây thông cổ thụ, vác gỗ nặng và thu thập sắt vụn, nhiên liệu. Chế tạo vũ khí, đạn dược và bẫy tại bàn chế tạo.
+
+🏰 **XÂY DỰNG CĂN CỨ & PHÒNG THỦ**
+Dựng hàng rào cọc nhọn kiên cố, tháp canh và cổng gỗ bảo vệ. Đặt bẫy gấu bằng thép để cản bước lũ quái vật.
+
+🧟 **CHIẾN ĐẤU BAN ĐÊM & BẮN SÚNG**
+Đêm xuống là lúc thây ma bào tử xuất hiện. Cầm súng trường săn, nhắm bắn chuẩn xác và bật đèn pha UV để thiêu rụi lũ dị nhân.
+
+🎣 **CÂU CÁ DÒNG SÔNG & SINH TỒN**
+Quản lý máu, năng lượng và cơn đói. Ra cầu cảng câu cá hồi tươi trên sông băng lạnh giá và nướng cá bên lửa trại ấm cúng.
+
+📶 **CHƠI NGOẠI TUYẾN (OFFLINE)**
+Không cần kết nối internet! Trải nghiệm sinh tồn trọn vẹn mọi lúc, mọi nơi.
+
+Tải ngay **Perimeter: Sinh Tồn Rừng 3D** và bắt đầu cuộc chiến sinh tồn ngay hôm nay!"""
+    },
+    "Hindi": {
+        "code": "hi-IN",
+        "title": "Perimeter: 3D जंगल सर्वाइवल",
+        "short": "जंगल में जिंदा रहें! बेस बनाएं, क्राफ्ट करें और म्यूटेंट को रोकें।",
+        "desc": """**Perimeter: 3D जंगल सर्वाइवल** में बर्फीले जंगलों में जिंदा रहने की चुनौती स्वीकार करें! यह एक लो-पॉली ओपन-वर्ल्ड सर्वाइवल गेम है।
+
+आप एक अकेले रेंजर हैं जो जहरीले स्पोर्स से संक्रमित एक खतरनाक ताइगा जंगल में फंस गए हैं। दिन में लकड़ी काटें, संसाधन जुटाएं और अपना शेल्टर बनाएं। रात होते ही अपने पेरीमीटर की रक्षा खूंखार फंगल ज़ॉम्बीज़ और म्यूटेंट भेड़ियों से करें।
+
+क्या आप अगली सुबह का सूरज देख पाएंगे?
+
+### 🌲 गेम की मुख्य विशेषताएं:
+🪓 **लकड़ी काटना और क्राफ्टिंग**
+कुल्हाड़ी से देवदार के पेड़ काटें, भारी लट्ठे उठाएं और कबाड़ व ईंधन इकट्ठा करें। वर्कबेंच पर हथियार, गोलियां और जाल बनाएं।
+
+🏰 **बेस बिल्डिंग और सुरक्षा घेरा**
+मजबूत नुकीली लकड़ी की दीवारें, वॉचटावर और भारी गेट बनाएं। म्यूटेंट को रोकने के लिए खतरनाक बीयर ट्रैप बिछाएं।
+
+🧟 **रात की लड़ाई और ज़ॉम्बी शूटिंग**
+सूरज ढलते ही संक्रमित ज़ॉम्बी हमला करते हैं। अपनी राइफल उठाएं, गोलियां चलाएं और यूवी सर्चलाइट से अंधेरे को चीरते हुए राक्षसों को जलाएं।
+
+🎣 **नदी में मछली पकड़ना और भोजन**
+अपनी सेहत, एनर्जी और भूख पर नजर रखें। बर्फीली नदी के घाट पर जाएं, ताजी मछलियां पकड़ें और अलाव पर खाना पकाएं।
+
+📶 **पूरी तरह ऑफलाइन खेलें**
+इंटरनेट की कोई जरूरत नहीं! कहीं भी और कभी भी खेलें।
+
+अभी **Perimeter: 3D जंगल सर्वाइवल** डाउनलोड करें और जंगलों में जीवित रहने का हुनर दिखाएं!"""
+    },
+    "Simplified Chinese": {
+        "code": "zh-CN",
+        "title": "边缘：3D森林生存 (Perimeter)",
+        "short": "在针叶林中生存！砍伐树木，建造基地，在黑夜抵御变异丧尸。",
+        "desc": """欢迎来到**《边缘：3D森林生存》(Perimeter: 3D Forest Survival)**！这是一款沉浸感十足的Low-Poly风格开放世界荒野求生模拟器。
+
+你是一名孤独的护林员，受困于遭受剧毒孢子感染的神秘西伯利亚原始针叶林中。白天，探索野外、伐木伐树、搜集废料与琥珀；夜晚，加固据点防线，手持猎枪抵御狂暴的变异真菌丧尸狂潮。
+
+你能守住防线，活着迎来黎明的阳光吗？
+
+### 🌲 核心玩法亮点：
+🪓 **伐木砍树与手工制作**
+挥舞护林斧砍倒苍天古松，肩扛原木，收集废金属与柴油。在工作台上打造生存装备、弹药与防御路障。
+
+🏰 **基地建造与防线加固**
+建立坚不可摧的边境要塞：建造尖刺木桩栅栏、哨塔与加固大门，在地面布置致命钢制捕兽夹阻击变异怪兽。
+
+🧟 **黑夜保卫战与步枪射击**
+夜幕降临，孢子感染者蜂拥而至！架起猎枪射击，在枪口焰与探照灯的强光照射下消灭感染怪物与首领巨兽。
+
+🎣 **冰川垂钓与野外生存指标**
+实时监测体力、生命值与饱腹度。在寒冷的冰川河边木栈桥垂钓肥美鲑鱼，生起营火烤鱼取暖。
+
+📶 **完全支持单机离线游玩**
+无需网络连接，随时随地享受最纯粹的硬核低多边形生存冒险！
+
+守住边缘防线！立即下载**《边缘：3D森林生存》**，开启你的泰加荒野求生之旅！"""
+    },
+    "Japanese": {
+        "code": "ja-JP",
+        "title": "Perimeter: 3D森林サバイバル",
+        "short": "タイガの森で生き残れ！拠点を建築しクラフトし、夜の変異体を撃退。",
+        "desc": """ローポリゴンで描かれる過酷な極寒のタイガ林へようこそ！**『Perimeter: 3D森林サバイバル』**は、未知の有毒胞子に侵された広大な森林を生き抜くオープンワールド・サバイバルゲームです。
+
+プレイヤーは孤独な森林監視員（レンジャー）。昼は巨木を伐採して資材を集め、防壁を築き、夜は闇から押し寄せる胞子変異ゾンビの襲撃から境界線（ペリメーター）を死守せよ！
+
+過酷な自然と夜の恐怖を乗り越え、生き残ることができるか？
+
+### 🌲 ゲームの特徴：
+🪓 **伐採・資材採集＆クラフト**
+斧でマツの巨木を切り倒し、丸太を運び、スクラップや燃料を回収。作業台で道具、弾薬、トラップを作成。
+
+🏰 **拠点建築と強固な防衛設備**
+尖った丸太の柵、見張り塔、補強ゲートを建設。侵入路にスチール製トラバサミを設置し、変異体の進軍を阻止。
+
+🧟 **緊張感あふれる夜間防衛戦**
+夜が訪れると胞子ゾンビの群れが出現！猟銃を構えて銃撃戦を展開し、紫外線サーチライトで光に弱い怪物を焼き払え。
+
+🎣 **氷河川での釣り＆サバイバル管理**
+体力、空腹度、スタミナを管理。木製デッキから冷たい川に釣り糸を垂らし、釣った魚を焚き火で調理して飢えを凌げ。
+
+📶 **完全オフライン対応**
+インターネット接続なしでプレイ可能！外出先でも本格的なサバイバルを楽しめます。
+
+拠点を築き、銃を取れ！今すぐ**『Perimeter: 3D森林サバイバル』**をダウンロード！"""
+    },
+    "Korean": {
+        "code": "ko-KR",
+        "title": "Perimeter: 3D 숲 서바이벌",
+        "short": "타이가에서 살아남으세요! 기지를 짓고 제작하며 돌연변이를 격퇴하세요.",
+        "desc": """치명적인 포자로 뒤덮인 미지의 북방 타이가 숲에서 살아남으세요! **Perimeter: 3D 숲 서바이벌**은 매력적인 로우폴리 그래픽의 오픈월드 생존 시뮬레이터입니다.
+
+당신은 고립된 레인저입니다. 낮에는 소나무를 벌목하고 자원을 모아 전초기지를 강화하고, 밤에는 끝없이 몰려오는 포자 변이 좀비와 야수들의 습격으로부터 방어선을 사수해야 합니다.
+
+가혹한 야생에서 새벽을 맞이할 수 있을까요?
+
+### 🌲 주요 게임 특징:
+🪓 **벌목 및 자원 크래프팅**
+도끼로 거대한 소나무를 베어 통나무를 운반하고 고철과 연료를 수집하세요. 작업대에서 무기, 탄약, 생존 도구를 제작할 수 있습니다.
+
+🏰 **기지 건설 및 방어 요새 구축**
+날카로운 목재 목책, 감시탑, 방어용 문을 건설하세요. 길목에 강철 곰 덫을 설치해 돌연변이의 접근을 차단하세요.
+
+🧟 **스릴 넘치는 야간 전투와 사격**
+해가 지면 포자 좀비 떼가 기지를 덮칩니다. 사냥용 라이플로 조준 사격하고, 탐조등과 모닥불로 괴물들을 몰아내세요.
+
+🎣 **빙하 강 낚시와 생존 스탯 관리**
+체력, 허기, 기력을 지속적으로 관리하세요. 강가 부두에서 신선한 송어를 낚아 모닥불에 구워 먹으며 에너지를 회복하세요.
+
+📶 **100% 완전 오프라인 지원**
+데이터나 와이파이 연결 없이 언제 어디서나 몰입도 높은 서바이벌을 즐기세요.
+
+지금 바로 **Perimeter: 3D 숲 서바이벌**을 다운로드하고 나만의 요새를 구축하세요!"""
+    },
+    "Swedish": {
+        "code": "sv-SE",
+        "title": "Perimeter: 3D Skogsöverlevnad",
+        "short": "Överlev i taigan! Bygg din bas, tillverka redskap och bekämpa mutanter.",
+        "desc": """Kliv in i den vilda nordiska vildmarken i **Perimeter: 3D Skogsöverlevnad**, en stämningsfull överlevnadssimulator i low-poly open world, infekterad av giftiga sporer.
+
+Du är en ensam skogsvaktare i en isolerad taiga. På dagen fäller du tallar, samlar skrot och bygger din utpost. På natten försvarar du din perimeter mot anfallande horder av svampmutanter och smittade odjur.
+
+Kommer du att överleva den kalla natten?
+
+### 🌲 NYCKELFUNKTIONER:
+🪓 **TRÄDFÄLLNING & HANTVERK**
+Hugg ner träd med din yxa, bär tunga stockar och samla bränsle. Tillverka verktyg, ammunition och fällor vid din arbetsbänk.
+
+🏰 **BASBYGGANDE & FÖRSVAR**
+Bygg en fästning med spetsiga träpalissader, vakttorn och rejäla grindar. Placera ut stålfällor för att stoppa inkräktare.
+
+🧟 **INTENSIV NATTSTRID & SKJUTNING**
+När mörkret faller anfaller sporzombierna. Sikta med ditt jaktgevär och använd strålkastare för att bränna bort infektionen.
+
+🎣 **FLODFISKE & ÖVERLEVNADSBEHOV**
+Håll koll på hälsa, energi och hunger. Fiska färsk öring från träbryggan och laga mat över den sprakande lägerelden.
+
+📶 **SPELA HELT OFFLINE**
+Inget internet krävs! Njut av äventyret var du än befinner dig.
+
+Ladda ner **Perimeter: 3D Skogsöverlevnad** nu och håll gränsen!"""
+    },
+    "Danish": {
+        "code": "da-DK",
+        "title": "Perimeter: 3D Skovoverlevelse",
+        "short": "Overlev i taigaen! Byg din base, craft udstyr og bekæmp natlige mutanter.",
+        "desc": """Træd ind i den nådesløse taiga i **Perimeter: 3D Skovoverlevelse**, et gribende low-poly overlevelsesspil i en åben verden hærget af giftige sporer.
+
+Som ensom skovfoged er det dit mål at overleve. Om dagen fælder du store fyrretræer og forstærker din lejr. Om natten skal du forsvare din perimeter mod blodtørstige sporemutanter.
+
+Kan du modstå nattens rædsler indtil daggry?
+
+### 🌲 SPILLETS INDHOLD:
+🪓 **SKOVHUGNING OG CRAFTING**
+Fæld træer med din økse, slæb tunge kævler og saml metal og benzin. Byg overlevelsesudstyr og ammunition ved arbejdsbænken.
+
+🏰 **BYG DIN BASE OG DINE FORSVAR**
+Opfør spidse træpalisader, vagttårne og forstærkede porte. Læg bjørnefælder ud for at standse monstrenes fremmarch.
+
+🧟 **NATLIGE KAMPE OG SKYDERI**
+Når mørket sænker sig, angriber de inficerede. Tag sigte med din jagtriffel og tænd UV-projektører for at afvise horden.
+
+🎣 **FISKERI VED ISFLODEN**
+Styr din sult, udholdenhed og dit helbred. Fang frisk fisk fra molen og tilbered måltider over lejrbålet.
+
+📶 **SPIL 100% OFFLINE**
+Kræver ingen internetforbindelse. Spil når som helst og hvor som helst!
+
+Download **Perimeter: 3D Skovoverlevelse** i dag og byg dit tilflugtssted!"""
+    },
+    "Norwegian": {
+        "code": "no-NO",
+        "title": "Perimeter: 3D Skogoverlevelse",
+        "short": "Overlev i taigaen! Bygg basen din, craft og bekjemp mutanter om natten.",
+        "desc": """Tre inn i den barske villmarken i **Perimeter: 3D Skogoverlevelse**, et stemningsfullt overlevelsesspill i en åpen low-poly verden infisert av dødelige sporer.
+
+Du er en ensom skogvokter i dype nordiske skoger. På dagtid hogger du tømmer og bygger ut basen din. Når natten faller på, må du forsvare perimeteren mot nådeløse bølger av muterte zombier.
+
+Klarer du å overleve villmarken og mørkets farer?
+
+### 🌲 HOVEDFUNKSJONER:
+🪓 **TØMMERHOGST OG CRAFTING**
+Fell store furutrær med øksen din, bær tømmerstokker og samle metall og drivstoff. Lag våpen, ammunisjon og feller på arbeidsbenken.
+
+🏰 **BASEBYGGING OG FORSVAR**
+Bygg solide trepalisader, vakttårn og tunge porter. Plasser ut bjørnefeller av stål for å bremse monsterbølgene.
+
+🧟 **INTENSE NATTKAMPER**
+Når solen går ned, angriper sporezombiene. Bruk jaktriflen din, skyt med presisjon og tenn lyskasterne for å holde skapningene unna.
+
+🎣 **FISKE I ELVEN OG MATFORSYNING**
+Pass på helse, energi og sult. Kast snøret ut i den iskalde elven fra trebryggen og grill fisken på leirbålet.
+
+📶 **SPILL HELT UTEN NETT**
+Ingen wifi nødvendig! Full overlevelsesopplevelse tilgjengelig offline.
+
+Last ned **Perimeter: 3D Skogoverlevelse** nå og start kampen for å overleve!"""
+    },
+    "Dutch": {
+        "code": "nl-NL",
+        "title": "Perimeter: 3D Bosoverleving",
+        "short": "Overleef in de taiga! Bouw je basis, craft en weer nachtelijke mutanten af.",
+        "desc": """Betreed de meedogenloze wildernis in **Perimeter: 3D Bosoverleving**, een sfeervol low-poly open-wereld overlevingsspel in een door giftige sporen geïnfecteerde taiga.
+
+Als eenzame boswachter moet je zien te overleven. Hak overdag bomen om en bouw een veilige buitenpost. Verdedig 's nachts je perimeter tegen nietsontziende hordes spore-zombies en roofdieren.
+
+Houd jij stand tot het ochtendgloren?
+
+### 🌲 BELANGRIJKSTE KENMERKEN:
+🪓 **HOUTHAKKEN & CRAFTEN**
+Vel bomen met je bijl, sleep zware boomstammen en verzamel schroot en brandstof. Maak wapens, munitie en vallen aan je werkbank.
+
+🏰 **BASISBOUW & VERDEDIGING**
+Bouw puntige houten palissades, wachttorens en versterkte poorten. Plaats berenklemmen om naderende mutanten te stoppen.
+
+🧟 **INTENSE NACHTELIJKE GEVECHTEN**
+Zodra de zon ondergaat, slaan de geïnfecteerden toe. Richt met je jachtgeweer en gebruik schijnwerpers om de monsters af te weren.
+
+🎣 **RIVIERVISSEN & OVERLEVEN**
+Houd je gezondheid, honger en energie op peil. Vis op verse forel vanaf de steiger en bereid maaltijden bij het kampvuur.
+
+📶 **VOLLEDIG OFFLINE SPEELBAAR**
+Geen internetverbinding nodig. Beleef het avontuur overal en altijd.
+
+Download **Perimeter: 3D Bosoverleving** vandaag nog en beveilig je buitenpost!"""
+    },
+    "Croatian": {
+        "code": "hr-HR",
+        "title": "Perimeter: 3D Preživljavanje",
+        "short": "Preživi u divljini! Gradi bazu, izrađuj opremu i odbij noćne mutante.",
+        "desc": """Zakoračite u nemilosrdnu divljinu u igri **Perimeter: 3D Preživljavanje**, atmosferskoj low-poly igri preživljavanja u otvorenom svijetu zaražene tajge.
+
+Vi ste usamljeni šumar u nepoznatoj šumi punoj toksičnih spora. Danju rušite stabla, skupljajte zalihe i gradite sklonište. Noću branite perimetar baze od hordi zastrašujućih zombija mutanata.
+
+Hoćete li izdržati do zore?
+
+### 🌲 GLAVNE ZNAČAJKE:
+🪓 **SJEČA DRVA I IZRAnetworkDA OPREME**
+Sjekirom obarajte borove, nosite teške trupce i skupljajte staro željezo i gorivo. Na radnom stolu izrađujte oružje, municiju i zamke.
+
+🏰 **GRADNJA BAZE I UTVRDA**
+Podignite oštre drvene palisade, stražarske tornjeve i ojačana vrata. Postavite čelične stupice za medvjede kako biste usporili napadače.
+
+🧟 **NOĆNE BORBE I PUCANJE**
+Kad padne mrak, mutanti napadaju. Pucajte iz lovačke puške i koristite reflektore kako biste odbili zaražene stvorove.
+
+🎣 **RIBOLOV NA RIJECI I OPSTANAK**
+Pazite na energiju, glad i zdravlje. Pecajte svježu ribu s drvenog mola na ledenoj rijeci i kuhajte obroke uz logorsku vatru.
+
+📶 **IGRAJTE POTPUNO OFFLINE**
+Za igranje nije potrebna internetska veza. Igrajte bilo kada i bilo gdje!
+
+Preuzmite **Perimeter: 3D Preživljavanje** sada i osigurajte svoju bazu!"""
+    },
+    "Czech": {
+        "code": "cs-CZ",
+        "title": "Perimeter: 3D Přežití v Lese",
+        "short": "Přežijte v tajze! Stavte základnu, vyrábějte a odrážejte noční mutanty.",
+        "desc": """Vstupte do drsné divočiny ve hře **Perimeter: 3D Přežití v Lese**, atmosférickém low-poly simulátoru přežití v otevřeném světě zamořeném spórami.
+
+Jste osamělý lesník v nebezpečné severské tajze. Ve dne kácejte borovice, shromažďujte zásoby a rozšiřujte základnu. V noci braňte svůj perimetr před vlnami spórových zombií a mutantů.
+
+Dokážete přežít do svítání?
+
+### 🌲 HLAVNÍ FUNKCE HRY:
+🪓 **KÁCENÍ STROMŮ A VÝROBA (CRAFTING)**
+Kácejte stromy sekerou, přenášejte klády a sbírejte šrot i palivo. Na pracovním stole vyrábějte nástroje, pasti a munici.
+
+🏰 **STAVBA ZÁKLADNY A OBRANA**
+Stavte naostřené dřevěné palisády, strážní věže a zpevněné brány. Umístěte ocelové pasti na medvědy k zastavení nepřátel.
+
+🧟 **NOČNÍ SOUBOJE A STŘELBA**
+Za soumraku vylézají mutanti. Zamiřte loveckou karabinu, osvětlete noc výstřely a UV reflektory zažeňte infikované nestvůry.
+
+🎣 **RYBOLOV NA ŘECE A PŘEŽITÍ**
+Sledujte své zdraví, energii a hlad. Vydejte se na dřevěné molo, chytejte pstruhy v ledové řece a opékejte je na táborovém ohni.
+
+📶 **HRAJTE ZCELA OFFLINE**
+Ke hraní nepotřebujete internetové připojení. Hrajte kdekoliv a kdykoliv!
+
+Stáhněte si **Perimeter: 3D Přežití v Lese** ještě dnes a ubraňte svůj perimetr!"""
+    },
+    "Serbian": {
+        "code": "sr-RS",
+        "title": "Perimeter: 3D Преживљавање",
+        "short": "Преживи у тајги! Гради базу, прави оружје и одбиј напад ноћних мутаната.",
+        "desc": """Закорачите у сурову дивљину у игри **Perimeter: 3D Преживљавање**, узбудљивој low-poly игри преживљавања у отвореном свету тајге заражене спорама.
+
+Ви сте усамљени шумар у дубокој шуми. Дању сеците стабла, скупљајте ресурсе и градите своје склониште. Ноћу браните периметар базе од таласа опасних зомбија и мутаната.
+
+Да ли ћете успети да преживите до јутра?
+
+### 🌲 ГЛАВНЕ КАРАКТЕРИСТИКЕ:
+🪓 **СЕЧА ДРВА И ИЗРАДА ПРЕДМЕТА**
+Секиром обарајте високе борове, носите трупце и сакупљајте старо гвожђе и гориво. На радном столу правите оружје, муницију и замке.
+
+🏰 **ИЗГРАДЊА БАЗЕ И ОДБРАНЕ**
+Подигните оштре дрвене палисаде, осматрачнице и капије. Поставите челичне замке да зауставите нападаче.
+
+🧟 **НОЋНА БОРБА И ПУЦАЊЕ**
+Када падне мрак, мутанти крећу у напад. Нишаните ловачком пушком и користите рефлекторе са куле да спалите заражене споре.
+
+🎣 **РИБОЛОВ НА ЛЕДЕНОЈ РЕЦИ**
+Пазите на своје здравље, енергију и глад. Пецајте свежу рибу са дрвеног мола на планинској реци и пеците је на ватри.
+
+📶 **ИГРАЈТЕ ОФЛАЈН БЕЗ ИНТЕРНЕТА**
+Интернет веза није потребна. Уживајте у правој авантури преживљавања било када и било где.
+
+Преузмите **Perimeter: 3D Преживљавање** данас и одбраните свој кордон!"""
+    },
+    "Irish": {
+        "code": "ga-IE",
+        "title": "Perimeter: Marthanacht 3D",
+        "short": "Marthanacht sa taiga! Tóg do bhunáit, ceardaigh agus cosain tú féin.",
+        "desc": """Téigh isteach sa bhfásach fiáin i **Perimeter: Marthanacht 3D**, cluiche marthanachta domhan oscailte low-poly i bhforaois taiga ionfhabhtaithe le spóir tocsaineacha.
+
+Is maor foraoise thú atá fágtha i do aonar. I rith an lae, leag crainn ghiúise, bailigh acmhainní agus tóg do bhunáit. San oíche, cosain do theorainn ar thonnta de zombaithe spóir agus arrachtaigh mheangacha.
+
+An mbeidh tú in ann teacht slán go dtí an mhaidin?
+
+### 🌲 PRÍOMHGHNÉITHE AN CHLUICHE:
+🪓 **LEAGAN CRANN & CEARDAÍOCHT**
+Leag crainn le do thua, iompair lomáin throma agus bailigh miotal dramhaíola agus breosla. Cruthaigh uirlisí, armlón agus gaistí ar an mbinse oibre.
+
+🏰 **TÓGÁIL BUNÁITE & COSAINT**
+Tóg ballaí cosanta as adhmad biorach, túir faire agus geataí láidre. Socraigh gaistí béir chruach chun na heasnaimh a stopadh.
+
+🧟 **TROID NA hOÍCHE & LÁMHACH**
+Nuair a luíonn an ghrian, tagann na zombaithe amach. Úsáid do raidhfil seilge agus las soilse cuardaigh UV chun an lucht ionfhabhtaithe a ruaigeadh.
+
+🎣 **IASCAIREACHT AR AN ABHAINN**
+Bí aireach ar do shláinte, fuinneamh agus ocras. Téigh ag iascaireacht ar an abhainn oighreach ón duga adhmaid agus cócaráil ar an tine champa.
+
+📶 **IMIR AS LÍNE (OFFLINE)**
+Níl aon idirlíon ag teastáil! Taithí iomlán marthanachta áit ar bith.
+
+Íoslódáil **Perimeter: Marthanacht 3D** inniu agus cosain do thalamh!"""
+    },
+    "Kazakh": {
+        "code": "kk-KZ",
+        "title": "Perimeter: Тайгадағы өмір сүру",
+        "short": "Жабайы тайгада аман қал! База сал, крафт жаса және мутанттарды жең.",
+        "desc": """Улы спораларға толы қатал тайгада өмір сүріңіз! **Perimeter: Тайгадағы өмір сүру** — ашық әлемдегі low-poly стиліндегі қызықты 3D тірі қалу симуляторы.
+
+Сіз қалың тайга орманында жалғыз қалған қорықшысыз. Күндіз қарағайларды шабыңыз, ресурстар жинаңыз және бекінісіңізді нығайтыңыз. Ал түн түскенде — қауіпті споралы зомбилер мен құбыжықтардың шабуылынан периметрді қорғаңыз!
+
+Таң атқанша аман қала аласыз ба?
+
+### 🌲 ОЙЫН МҮМКІНДІКТЕРІ:
+🪓 **АҒАШ КЕСУ ЖӘНЕ КРАФТ**
+Қорықшы балтасымен қарағайларды құлатыңыз, ауыр бөренелерді тасыңыз, темір мен отын жинаңыз. Верстакта құралдар, оқ-дәрілер мен тұзақтар жасаңыз.
+
+🏰 **БАЗА САЛУ ЖӘНЕ ҚОРҒАНЫС**
+Мықты ағаш қоршаулар, күзет мұнаралары мен берік қақпалар тұрғызыңыз. Мутанттардың жолына болат қақпандар қойыңыз.
+
+🧟 **ТҮНГІ ҰРЫС ЖӘНЕ АТУ**
+Қараңғы түскенде спора зомбилері шығады. Аңшы мылтығынан оқ атып, жарықтандырғыш прожекторлармен құбыжықтарды қуыңыз.
+
+🎣 **МҰЗДЫ ӨЗЕНДЕ БАЛЫҚ АУЛАУ**
+Денсаулық, қуат және аштық деңгейін қадағалаңыз. Тау өзеніндегі көпірден балық аулап, оны алау отында пісіріңіз.
+
+📶 **ИНТЕРНЕТСІЗ (OFFLINE) ОЙНАҢЫЗ**
+Толыққанды тірі қалу тәжірибесі ғаламторсыз қолжетімді. Кез келген жерде ойнаңыз!
+
+Қазір **Perimeter: Тайгадағы өмір сүру** ойынын жүктеп алыңыз және орманды қорғаңыз!"""
+    },
+    "Arabic": {
+        "code": "ar-SA",
+        "title": "Perimeter: النجاة في الغابة 3D",
+        "short": "ابقَ حياً في الغابة! ابنِ قاعدتك واصنع أدواتك وتصدَّ للزومبي ليلاً.",
+        "desc": """ادخل إلى البرية القاسية في **Perimeter: النجاة في الغابة 3D**، لعبة البقاء في عالم مفتوح بأسلوب low-poly الممتع في غابات التايغا المصابة بالأبواغ السامة.
+
+أنت حارس غابة وحيد في بيئة معزولة وخطيرة. خلال النهار، اقطع الأشجار الضخمة واجمع الموارد وعزز موقعك. وفي الليل، دافع عن حدود قاعدتك ضد موجات زومبي الأبواغ والوحوش المتحولة.
+
+هل يمكنك الصمود حتى شروق الشمس؟
+
+### 🌲 مميزات اللعبة الرئيسية:
+🪓 **قطع الأشجار وصناعة الأدوات (Crafting)**
+استخدم فأسك لإسقاط أشجار الصنوبر، واحمل جذوع الأشجار الثقيلة واجمع الخردة والوقود. اصنع الأسلحة والذخائر والفخاخ على طاولة العمل.
+
+🏰 **بناء القاعدة والتحصينات**
+أنشئ أسواراً خشبية مدببة، وأبراج مراقبة، وبوابات محصنة. انشر فخاخ الدببة الفولاذية لإيقاف تقدم المتحولين.
+
+🧟 **معارك ليلية ملحمية وإطلاق نار**
+عندما تغرب الشمس، تبدأ هجمات الزومبي. صوّب ببندقيتك وأطلق النار واستخدم كشافات الأشعة فوق البنفسجية لحرق الوحوش المصابة.
+
+🎣 **صيد الأسماك في النهر الجليدي**
+راقب طاقتك وصحتك ومستوى الجوع. اذهب إلى الرصيف الخشبي على النهر واصطد الأسماك الطازجة واطهها على نار المخيم.
+
+📶 **لعب بدون إنترنت (Offline)**
+لا حاجة للاتصال بالإنترنت! استمتع بتجربة بقاء كاملة في أي وقت وأي مكان.
+
+حمّل **Perimeter: النجاة في الغابة 3D** الآن وابدأ بناء ملجئك اليوم!"""
+    }
+}
+
+out_path = "d:/GodotProjects/perimeter/docs/ASO_ADDITIONAL_LANGUAGES.md"
+with open(out_path, "w", encoding="utf-8") as f:
+    f.write("# ASO Metadata (16 Additional Languages) for Google Play Console\n\n")
+    f.write("> Все заголовки строго до **30 символов**.\n")
+    f.write("> Все краткие описания строго до **80 символов**.\n")
+    f.write("> Все полные описания структурированы и оптимизированы под поисковые алгоритмы.\n\n---\n\n")
+
+    for lang, data in aso_data.items():
+        f.write(f"## {lang} ({data['code']})\n\n")
+        f.write(f"### Title ({len(data['title'])} / 30 chars):\n`{data['title']}`\n\n")
+        f.write(f"### Short Description ({len(data['short'])} / 80 chars):\n`{data['short']}`\n\n")
+        f.write(f"### Full Description:\n{data['desc']}\n\n---\n\n")
+
+print(f"Saved all 16 locales to {out_path}")

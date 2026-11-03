@@ -1,0 +1,167 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/inventory/crafting_ui.gd" id="1_craft_ui"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_craft_bg"]
+bg_color = Color(0.09, 0.1, 0.12, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.38, 0.45, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="CraftingUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_craft_ui")
+
+[node name="DimOverlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainPanel" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(960, 580)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_craft_bg")
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/MainPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="HBox" type="HBoxContainer" parent="CenterContainer/MainPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="LeftList" type="VBoxContainer" parent="CenterContainer/MainPanel/Margin/HBox"]
+custom_minimum_size = Vector2(460, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeaderLabel" type="Label" parent="CenterContainer/MainPanel/Margin/HBox/LeftList"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.5, 1)
+theme_override_font_sizes/font_size = 20
+text = "ВЕРСТАК: ЧЕРТЕЖИ И КРАФТ"
+
+[node name="CategoryTabs" type="HBoxContainer" parent="CenterContainer/MainPanel/Margin/HBox/LeftList"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TabAll" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/LeftList/CategoryTabs"]
+layout_mode = 2
+text = "Все"
+
+[node name="TabWeapons" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/LeftList/CategoryTabs"]
+layout_mode = 2
+text = "Оружие"
+
+[node name="TabAmmo" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/LeftList/CategoryTabs"]
+layout_mode = 2
+text = "Боеприпасы"
+
+[node name="TabGear" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/LeftList/CategoryTabs"]
+layout_mode = 2
+text = "Снаряжение"
+
+[node name="TabFurn" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/LeftList/CategoryTabs"]
+layout_mode = 2
+text = "Мебель и Защита"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/MainPanel/Margin/HBox/LeftList"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RecipeList" type="VBoxContainer" parent="CenterContainer/MainPanel/Margin/HBox/LeftList/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="VSeparator" type="VSeparator" parent="CenterContainer/MainPanel/Margin/HBox"]
+layout_mode = 2
+
+[node name="RightDetail" type="VBoxContainer" parent="CenterContainer/MainPanel/Margin/HBox"]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="RecipeTitle" type="Label" parent="CenterContainer/MainPanel/Margin/HBox/RightDetail"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.45, 1)
+theme_override_font_sizes/font_size = 20
+text = "Выберите рецепт"
+
+[node name="DeliveryModeLabel" type="Label" parent="CenterContainer/MainPanel/Margin/HBox/RightDetail"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.85, 0.95, 1)
+theme_override_font_sizes/font_size = 13
+text = "Тип доставки: —"
+autowrap_mode = 3
+
+[node name="RecipeDesc" type="Label" parent="CenterContainer/MainPanel/Margin/HBox/RightDetail"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "Выберите чертеж из списка слева."
+autowrap_mode = 3
+
+[node name="IngredientsHeader" type="Label" parent="CenterContainer/MainPanel/Margin/HBox/RightDetail"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.7, 1)
+theme_override_font_sizes/font_size = 15
+text = "Требуемые ресурсы в рюкзаке:"
+
+[node name="IngredientsPanel" type="PanelContainer" parent="CenterContainer/MainPanel/Margin/HBox/RightDetail"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/MainPanel/Margin/HBox/RightDetail/IngredientsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="IngredientsList" type="VBoxContainer" parent="CenterContainer/MainPanel/Margin/HBox/RightDetail/IngredientsPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Spacer" type="Control" parent="CenterContainer/MainPanel/Margin/HBox/RightDetail"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CraftButton" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/RightDetail"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+disabled = true
+text = "СОЗДАТЬ"
+
+[node name="CloseButton" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/RightDetail"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Закрыть верстак [ Esc / E ]"

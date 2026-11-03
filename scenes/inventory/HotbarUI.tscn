@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/inventory/hotbar_ui.gd" id="1_hotbar"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot"]
+bg_color = Color(0.1, 0.12, 0.15, 0.85)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.4, 0.48, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="HotbarUI" type="Control"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -210.0
+offset_top = -80.0
+offset_right = 210.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_hotbar")
+
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Slot1" type="Button" parent="HBox"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot")
+text = "[1]\nТопор"
+
+[node name="Slot2" type="Button" parent="HBox"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot")
+text = "[2]\nКарабин"
+
+[node name="Slot3" type="Button" parent="HBox"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot")
+text = "[3]\nЯгоды"
+
+[node name="Slot4" type="Button" parent="HBox"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot")
+text = "[4]\n—"
+
+[node name="Slot5" type="Button" parent="HBox"]
+custom_minimum_size = Vector2(74, 64)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot")
+text = "[5]\n—"

@@ -1,0 +1,88 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/inventory/workbench.gd" id="1_wb"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_workbench"]
+size = Vector3(2.2, 1.8, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wood"]
+albedo_color = Color(0.42, 0.28, 0.15, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_metal"]
+albedo_color = Color(0.3, 0.32, 0.35, 1)
+metallic = 0.85
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_panel"]
+albedo_color = Color(0.35, 0.24, 0.14, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lamp"]
+albedo_color = Color(1, 0.85, 0.4, 1)
+emission_enabled = true
+emission = Color(1, 0.8, 0.3, 1)
+emission_energy_multiplier = 2.0
+
+[node name="Workbench" type="StaticBody3D"]
+collision_layer = 5
+collision_mask = 1
+script = ExtResource("1_wb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("BoxShape3D_workbench")
+
+[node name="VisualTable" type="Node3D" parent="."]
+
+[node name="TableTop" type="CSGBox3D" parent="VisualTable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+size = Vector3(2.0, 0.12, 0.9)
+material = SubResource("StandardMaterial3D_wood")
+
+[node name="Leg1" type="CSGCylinder3D" parent="VisualTable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.85, 0.4, -0.35)
+radius = 0.06
+height = 0.8
+material = SubResource("StandardMaterial3D_wood")
+
+[node name="Leg2" type="CSGCylinder3D" parent="VisualTable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 0.4, -0.35)
+radius = 0.06
+height = 0.8
+material = SubResource("StandardMaterial3D_wood")
+
+[node name="Leg3" type="CSGCylinder3D" parent="VisualTable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.85, 0.4, 0.35)
+radius = 0.06
+height = 0.8
+material = SubResource("StandardMaterial3D_wood")
+
+[node name="Leg4" type="CSGCylinder3D" parent="VisualTable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 0.4, 0.35)
+radius = 0.06
+height = 0.8
+material = SubResource("StandardMaterial3D_wood")
+
+[node name="BackToolRack" type="CSGBox3D" parent="VisualTable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, -0.42)
+size = Vector3(2.0, 0.9, 0.06)
+material = SubResource("StandardMaterial3D_panel")
+
+[node name="Vise" type="CSGBox3D" parent="VisualTable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1.0, 0.3)
+size = Vector3(0.25, 0.18, 0.25)
+material = SubResource("StandardMaterial3D_metal")
+
+[node name="Lamp" type="CSGBox3D" parent="VisualTable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 1.6, -0.2)
+size = Vector3(0.15, 0.2, 0.15)
+material = SubResource("StandardMaterial3D_lamp")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="VisualTable/Lamp"]
+light_color = Color(1, 0.85, 0.45, 1)
+light_energy = 2.0
+omni_range = 6.0
+
+[node name="HeavyObjectSpawnPoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 0, 0)

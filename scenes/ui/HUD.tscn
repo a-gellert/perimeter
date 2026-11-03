@@ -1,13 +1,18 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/hud_controller.gd" id="1_hud"]
 [ext_resource type="Script" path="res://scripts/ui/stats_bar.gd" id="2_bar"]
 [ext_resource type="Script" path="res://scripts/ui/tablet_toggle_button.gd" id="3_btn"]
 [ext_resource type="Script" path="res://scripts/ui/sleep_dialog.gd" id="4_sleep"]
+[ext_resource type="PackedScene" path="res://scenes/inventory/HotbarUI.tscn" id="5_hotbar"]
+[ext_resource type="PackedScene" path="res://scenes/inventory/InventoryUI.tscn" id="6_inv_ui"]
+[ext_resource type="PackedScene" path="res://scenes/crafting/CraftingUI.tscn" id="7_craft_ui"]
+[ext_resource type="PackedScene" path="res://scenes/ui/ArchitectUI.tscn" id="8_arch_ui"]
+[ext_resource type="PackedScene" path="res://scenes/ui/TouchControls.tscn" id="9_touch_ui"]
 
 [node name="HUD" type="CanvasLayer"]
 
-[node name="HUDController" type="Control" parent="." node_paths=PackedStringArray("hp_bar", "stamina_bar", "logs_label", "time_label", "context_prompt_label", "mode_label", "zone_label")]
+[node name="HUDController" type="Control" parent="." node_paths=PackedStringArray("hp_bar", "stamina_bar", "logs_label", "time_label", "fps_label", "context_prompt_label", "mode_label", "zone_label", "weapon_label", "raid_banner", "quest_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,9 +25,53 @@ hp_bar = NodePath("BottomLeft/VBoxContainer/HPBar")
 stamina_bar = NodePath("BottomLeft/VBoxContainer/StaminaBar")
 logs_label = NodePath("BottomLeft/VBoxContainer/LogsLabel")
 time_label = NodePath("TopBar/MarginContainer/HBoxContainer/TimeLabel")
+fps_label = NodePath("TopBar/MarginContainer/HBoxContainer/FPSLabel")
 context_prompt_label = NodePath("CenterContainer/ContextPromptLabel")
 mode_label = NodePath("TopBar/MarginContainer/HBoxContainer/ModeLabel")
 zone_label = NodePath("TopBar/MarginContainer/HBoxContainer/ZoneLabel")
+weapon_label = NodePath("BottomLeft/VBoxContainer/WeaponLabel")
+raid_banner = NodePath("RaidBanner")
+quest_label = NodePath("QuestContainer/Panel/Margin/VBox/QuestLabel")
+
+[node name="QuestContainer" type="MarginContainer" parent="HUDController"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -440.0
+offset_top = 65.0
+offset_right = -20.0
+offset_bottom = 135.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="HUDController/QuestContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Margin" type="MarginContainer" parent="HUDController/QuestContainer/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 6
+
+[node name="VBox" type="VBoxContainer" parent="HUDController/QuestContainer/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="QuestTitle" type="Label" parent="HUDController/QuestContainer/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_font_sizes/font_size = 11
+text = "📋 ТЕКУЩАЯ ЦЕЛЬ:"
+
+[node name="QuestLabel" type="Label" parent="HUDController/QuestContainer/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_font_sizes/font_size = 13
+text = "1. Срубите сосну топором и заделайте брешь в частоколе."
+autowrap_mode = 2
 
 [node name="TopBar" type="Control" parent="HUDController"]
 layout_mode = 1
@@ -45,7 +94,17 @@ theme_override_constants/margin_right = 20
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HUDController/TopBar/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 16
 mouse_filter = 2
+
+[node name="FPSLabel" type="Label" parent="HUDController/TopBar/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 1, 0.4, 0.9)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 15
+text = "FPS: 60"
 
 [node name="TimeLabel" type="Label" parent="HUDController/TopBar/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -84,17 +143,39 @@ size_flags_horizontal = 3
 mouse_filter = 2
 
 [node name="TabletButton" type="Button" parent="HUDController/TopBar/MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(160, 36)
 layout_mode = 2
 text = "Планшет егеря"
 script = ExtResource("3_btn")
+
+[node name="TouchToggleButton" type="Button" parent="HUDController/TopBar/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "🎮 Сенсор"
+
+[node name="RaidBanner" type="Label" parent="HUDController"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -300.0
+offset_top = 70.0
+offset_right = 300.0
+offset_bottom = 110.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.25, 0.25, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 20
+text = "⚠ ТРЕВОГА: НОЧНОЙ ШТУРМ ПЕРИМЕТРА! ⚠"
+horizontal_alignment = 1
 
 [node name="BottomLeft" type="Control" parent="HUDController"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -140.0
+offset_top = -170.0
 offset_right = 320.0
 grow_vertical = 0
 mouse_filter = 2
@@ -112,6 +193,15 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 6
 mouse_filter = 2
+
+[node name="WeaponLabel" type="Label" parent="HUDController/BottomLeft/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 0.8, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 14
+text = "[1] Топор Егеря"
 
 [node name="HPLabel" type="Label" parent="HUDController/BottomLeft/VBoxContainer"]
 layout_mode = 2
@@ -262,3 +352,17 @@ text = "Поспать 8 часов (Полный сон)"
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 text = "Не спать"
+
+[node name="HotbarUI" parent="HUDController" instance=ExtResource("5_hotbar")]
+layout_mode = 1
+
+[node name="InventoryUI" parent="." instance=ExtResource("6_inv_ui")]
+visible = false
+
+[node name="CraftingUI" parent="." instance=ExtResource("7_craft_ui")]
+visible = false
+
+[node name="ArchitectUI" parent="." instance=ExtResource("8_arch_ui")]
+visible = false
+
+[node name="TouchControls" parent="." instance=ExtResource("9_touch_ui")]

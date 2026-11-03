@@ -1,37 +1,12 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/mercenary_sentry.gd" id="1_sentry"]
+[ext_resource type="PackedScene" path="res://assets/just_survive/FBX/SurviverMale.fbx" id="2_male_model"]
+[ext_resource type="PackedScene" path="res://assets/just_survive/FBX/HuntingRifle.fbx" id="3_rifle_model"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sentry"]
 radius = 0.4
 height = 1.8
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_camo"]
-albedo_color = Color(0.24, 0.32, 0.22, 1)
-roughness = 0.9
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_sentry"]
-material = SubResource("StandardMaterial3D_camo")
-radius = 0.38
-height = 1.75
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_helmet"]
-albedo_color = Color(0.18, 0.22, 0.16, 1)
-metallic = 0.6
-roughness = 0.4
-
-[sub_resource type="BoxMesh" id="BoxMesh_helmet"]
-material = SubResource("StandardMaterial3D_helmet")
-size = Vector3(0.48, 0.25, 0.48)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rifle"]
-albedo_color = Color(0.12, 0.12, 0.14, 1)
-metallic = 0.8
-roughness = 0.3
-
-[sub_resource type="BoxMesh" id="BoxMesh_rifle"]
-material = SubResource("StandardMaterial3D_rifle")
-size = Vector3(0.1, 0.14, 1.1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_interact"]
 size = Vector3(1.8, 2.0, 1.8)
@@ -45,17 +20,11 @@ script = ExtResource("1_sentry")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("CapsuleShape3D_sentry")
 
-[node name="BodyMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-mesh = SubResource("CapsuleMesh_sentry")
+[node name="CharacterModel" parent="." instance=ExtResource("2_male_model")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0)
 
-[node name="HelmetMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
-mesh = SubResource("BoxMesh_helmet")
-
-[node name="RifleMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0.35, 1.05, 0.3)
-mesh = SubResource("BoxMesh_rifle")
+[node name="HuntingRifle" parent="." instance=ExtResource("3_rifle_model")]
+transform = Transform3D(0.9, 0, 0, 0, 0.8, 0.4, 0, -0.4, 0.8, 0.25, 0.95, -0.2)
 
 [node name="InteractionArea" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)

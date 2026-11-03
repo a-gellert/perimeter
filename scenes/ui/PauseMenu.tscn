@@ -1,14 +1,21 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/pause_menu.gd" id="1_pause"]
+[ext_resource type="PackedScene" path="res://scenes/ui/SettingsMenu.tscn" id="2_settings"]
 
-[node name="PauseMenu" type="CanvasLayer" node_paths=PackedStringArray("resume_button", "quit_button")]
+[node name="PauseMenu" type="CanvasLayer" node_paths=PackedStringArray("resume_button", "save_button", "load_button", "settings_button", "main_menu_button", "quit_button", "status_label", "settings_menu")]
 process_mode = 3
 layer = 90
 visible = false
 script = ExtResource("1_pause")
 resume_button = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ResumeButton")
+save_button = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SaveButton")
+load_button = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/LoadButton")
+settings_button = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsButton")
+main_menu_button = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/MainMenuButton")
 quit_button = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/QuitButton")
+status_label = NodePath("CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StatusLabel")
+settings_menu = NodePath("SettingsMenu")
 
 [node name="Overlay" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -26,7 +33,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
-custom_minimum_size = Vector2(360, 240)
+custom_minimum_size = Vector2(380, 320)
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
@@ -38,7 +45,7 @@ theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 
 [node name="Title" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -56,12 +63,41 @@ theme_override_font_sizes/font_size = 13
 text = "Периметр: Кордон Егеря"
 horizontal_alignment = 1
 
+[node name="StatusLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+
 [node name="ResumeButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 38)
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 text = "Продолжить"
 
+[node name="SaveButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+text = "Сохранить игру"
+
+[node name="LoadButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+text = "Загрузить сохранение"
+
+[node name="SettingsButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+text = "Настройки"
+
+[node name="MainMenuButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+text = "В главное меню"
+
 [node name="QuitButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 36)
+custom_minimum_size = Vector2(0, 34)
 layout_mode = 2
 text = "Выйти из игры"
+
+[node name="SettingsMenu" parent="." instance=ExtResource("2_settings")]
+visible = false

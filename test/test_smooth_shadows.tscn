@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dl13hmdo2mmyi"]
+
+[ext_resource type="Script" path="res://test/test_smooth_shadows.gd" id="1_test"]
+
+[node name="TestSmoothShadows" type="Node"]
+script = ExtResource("1_test")

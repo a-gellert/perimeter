@@ -8,23 +8,40 @@ extends Node
 
 var current_hour: float = 7.0
 var current_phase: int = GameEnums.DayPhase.DAY
+var current_day: int = 1
 
 func _ready() -> void:
 	current_hour = start_hour
 	_evaluate_phase(true)
+	GameEvents.time_continuous_updated.emit(current_hour)
+	var h := int(current_hour)
+	var m := int((current_hour - h) * 60.0)
+	GameEvents.time_updated.emit(h, m, current_phase)
 
 func _process(delta: float) -> void:
 	var hours_per_sec := 24.0 / day_length_real_sec
-	current_hour = fmod(current_hour + hours_per_sec * delta, 24.0)
+	var next_hour := current_hour + hours_per_sec * delta
+	if next_hour >= 24.0:
+		current_day += int(next_hour / 24.0)
+	current_hour = fmod(next_hour, 24.0)
 	_evaluate_phase()
+	
+	GameEvents.time_continuous_updated.emit(current_hour)
 	
 	var h := int(current_hour)
 	var m := int((current_hour - h) * 60.0)
 	GameEvents.time_updated.emit(h, m, current_phase)
 
 func skip_hours(hours: int) -> void:
-	current_hour = fmod(current_hour + float(hours), 24.0)
+	var next_hour := current_hour + float(hours)
+	if next_hour >= 24.0:
+		current_day += int(next_hour / 24.0)
+	current_hour = fmod(next_hour, 24.0)
 	_evaluate_phase(true)
+	GameEvents.time_continuous_updated.emit(current_hour)
+	var h := int(current_hour)
+	var m := int((current_hour - h) * 60.0)
+	GameEvents.time_updated.emit(h, m, current_phase)
 
 func _evaluate_phase(force_emit: bool = false) -> void:
 	var new_phase: int

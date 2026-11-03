@@ -16,9 +16,9 @@ const ELEVATION_SOUTH_RIVER_MAX: float = -4.0
 const ELEVATION_PLATEAU_MIN: float = 0.0
 const ELEVATION_PLATEAU_MAX: float = 4.0
 
-# Y in [10, 38]: Горные уступы и Скальный хребет (Север)
+# Y in [10, 95]: Горные уступы и Скальный хребет (Север)
 const ELEVATION_NORTH_RIDGE_MIN: float = 10.0
-const ELEVATION_NORTH_RIDGE_MAX: float = 38.0
+const ELEVATION_NORTH_RIDGE_MAX: float = 95.0
 
 # --- СТРУКТУРЫ ДАННЫХ ---
 
@@ -136,10 +136,10 @@ static func get_default_pois() -> Dictionary:
 	return {
 		"outpost_cabin": {
 			"name": "Дом Егеря",
-			"pos": Vector3(0, 1.6, 0),
+			"pos": Vector3(320, 1.6, 120),
 			"zone": WorldZoneManager.ZoneType.OUTPOST_CENTER,
 			"visited": true,
-			"description": "Центральная база выживания и убежище с печью."
+			"description": "Центральная база выживания и убежище с печью у восточных гор."
 		},
 		"gas_station": {
 			"name": "АЗС «Северная»",
@@ -184,7 +184,7 @@ static func get_default_pois() -> Dictionary:
 		},
 		"ancient_grove": {
 			"name": "Медвежий Бурелом",
-			"pos": Vector3(340, 3.0, 80),
+			"pos": Vector3(380, 3.0, -80),
 			"zone": WorldZoneManager.ZoneType.EAST_TAIGA,
 			"visited": false,
 			"description": "Непролазная чаща с гигантскими поваленными соснами и логовом зверя."

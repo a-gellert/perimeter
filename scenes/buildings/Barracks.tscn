@@ -1,0 +1,72 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/building/barracks.gd" id="1_barracks"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_barrack_solid"]
+size = Vector3(4.5, 3.2, 5.0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ghost"]
+transparency = 1
+albedo_color = Color(0.15, 0.78, 0.95, 0.45)
+roughness = 0.2
+emission_enabled = true
+emission = Color(0.1, 0.65, 0.95, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_ghost"]
+material = SubResource("StandardMaterial3D_ghost")
+size = Vector3(4.4, 3.0, 4.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_log_wall"]
+albedo_color = Color(0.35, 0.24, 0.16, 1)
+roughness = 0.9
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact"]
+size = Vector3(5.0, 3.2, 5.5)
+
+[node name="Barracks" type="StaticBody3D" node_paths=PackedStringArray("ghost_mesh", "completed_mesh", "solid_collision")]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_barracks")
+ghost_mesh = NodePath("GhostMesh")
+completed_mesh = NodePath("CompletedMesh")
+solid_collision = NodePath("CollisionShape3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+shape = SubResource("BoxShape3D_barrack_solid")
+
+[node name="GhostMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+mesh = SubResource("BoxMesh_ghost")
+
+[node name="CompletedMesh" type="Node3D" parent="."]
+visible = false
+
+[node name="CabinWalls" type="CSGBox3D" parent="CompletedMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+size = Vector3(4.2, 2.8, 4.6)
+material = SubResource("StandardMaterial3D_log_wall")
+
+[node name="InteriorHollow" type="CSGBox3D" parent="CompletedMesh/CabinWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+operation = 2
+size = Vector3(3.6, 2.6, 4.0)
+
+[node name="DoorOpening" type="CSGBox3D" parent="CompletedMesh/CabinWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 2.3)
+operation = 2
+size = Vector3(1.2, 2.0, 0.6)
+
+[node name="Roof" type="CSGPolygon3D" parent="CompletedMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 2.8, 2.5)
+polygon = PackedVector2Array(0, 0, 2.4, 1.2, 4.8, 0)
+depth = 5.0
+
+[node name="InteractionArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+shape = SubResource("BoxShape3D_interact")

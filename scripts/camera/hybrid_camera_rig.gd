@@ -14,8 +14,11 @@ var is_transitioning: bool = false
 
 func _ready() -> void:
 	GameEvents.request_mode_switch.connect(switch_mode)
-	if camera and fpv_mount:
-		camera.global_transform = fpv_mount.global_transform
+	if camera:
+		camera.current = true
+		camera.far = 1500.0
+		if fpv_mount:
+			camera.global_transform = fpv_mount.global_transform
 
 func _process(delta: float) -> void:
 	if is_transitioning:
@@ -29,7 +32,7 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if current_mode == GameEnums.CameraMode.ARCHITECT and architect_pan:
-		architect_pan.handle_zoom(event)
+		architect_pan.handle_input(event, top_down_pivot)
 
 func switch_mode(target_mode: int) -> void:
 	if target_mode == current_mode or is_transitioning:

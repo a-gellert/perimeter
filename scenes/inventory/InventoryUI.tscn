@@ -1,0 +1,211 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/inventory/inventory_ui.gd" id="1_inv_ui"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.08, 0.09, 0.11, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.28, 0.32, 0.38, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="InventoryUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_inv_ui")
+
+[node name="DimOverlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainPanel" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(980, 620)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/MainPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="HBox" type="HBoxContainer" parent="CenterContainer/MainPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="LeftBackpack" type="VBoxContainer" parent="CenterContainer/MainPanel/Margin/HBox"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BackpackTitleLabel" type="Label" parent="CenterContainer/MainPanel/Margin/HBox/LeftBackpack"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.7, 1)
+theme_override_font_sizes/font_size = 20
+text = "РЮКЗАК ЕГЕРЯ (0 / 15)"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/MainPanel/Margin/HBox/LeftBackpack"]
+custom_minimum_size = Vector2(0, 320)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BackpackGrid" type="GridContainer" parent="CenterContainer/MainPanel/Margin/HBox/LeftBackpack/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 5
+
+[node name="DetailPanel" type="PanelContainer" parent="CenterContainer/MainPanel/Margin/HBox/LeftBackpack"]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
+
+[node name="DetailMargin" type="MarginContainer" parent="CenterContainer/MainPanel/Margin/HBox/LeftBackpack/DetailPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/MainPanel/Margin/HBox/LeftBackpack/DetailPanel/DetailMargin"]
+layout_mode = 2
+
+[node name="DetailTitle" type="Label" parent="CenterContainer/MainPanel/Margin/HBox/LeftBackpack/DetailPanel/DetailMargin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+text = "Выберите предмет"
+
+[node name="DetailDesc" type="Label" parent="CenterContainer/MainPanel/Margin/HBox/LeftBackpack/DetailPanel/DetailMargin/VBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "Нажмите на ячейку в рюкзаке для управления."
+autowrap_mode = 3
+
+[node name="DetailStats" type="Label" parent="CenterContainer/MainPanel/Margin/HBox/LeftBackpack/DetailPanel/DetailMargin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.85, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="ActionButtons" type="HBoxContainer" parent="CenterContainer/MainPanel/Margin/HBox/LeftBackpack/DetailPanel/DetailMargin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="EquipButton" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/LeftBackpack/DetailPanel/DetailMargin/VBox/ActionButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Экипировать"
+
+[node name="HotbarAssignButton" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/LeftBackpack/DetailPanel/DetailMargin/VBox/ActionButtons"]
+layout_mode = 2
+text = "На хотбар"
+
+[node name="DropButton" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/LeftBackpack/DetailPanel/DetailMargin/VBox/ActionButtons"]
+layout_mode = 2
+text = "Выбросить"
+
+[node name="VSeparator" type="VSeparator" parent="CenterContainer/MainPanel/Margin/HBox"]
+layout_mode = 2
+
+[node name="RightEquipment" type="VBoxContainer" parent="CenterContainer/MainPanel/Margin/HBox"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HeaderLabel" type="Label" parent="CenterContainer/MainPanel/Margin/HBox/RightEquipment"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.7, 1)
+theme_override_font_sizes/font_size = 20
+text = "ЭКИПИРОВКА (WARBAND)"
+
+[node name="ArmorLabel" type="Label" parent="CenterContainer/MainPanel/Margin/HBox/RightEquipment"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.75, 0.9, 1)
+theme_override_font_sizes/font_size = 14
+text = "Защитное снаряжение:"
+
+[node name="SlotHead" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/RightEquipment"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "[ Шлем / Противогаз ]"
+
+[node name="SlotBody" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/RightEquipment"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "[ Полный комплект одежды ]"
+
+[node name="SlotFeet" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/RightEquipment"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "[ Обувь / Берцы ]"
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/MainPanel/Margin/HBox/RightEquipment"]
+layout_mode = 2
+
+[node name="WeaponLabel" type="Label" parent="CenterContainer/MainPanel/Margin/HBox/RightEquipment"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.6, 0.5, 1)
+theme_override_font_sizes/font_size = 14
+text = "4 Оружейных слота (Оружие / Боеприпасы):"
+
+[node name="SlotWeapon1" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/RightEquipment"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "[ Слот 1: Топор / Меч ]"
+
+[node name="SlotWeapon2" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/RightEquipment"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "[ Слот 2: Лук / Арбалет / Ружье ]"
+
+[node name="SlotWeapon3" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/RightEquipment"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "[ Слот 3: Стрелы / Запасное ]"
+
+[node name="SlotWeapon4" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/RightEquipment"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "[ Слот 4: Болты / Пистолет / Нож ]"
+
+[node name="StatsSummaryLabel" type="Label" parent="CenterContainer/MainPanel/Margin/HBox/RightEquipment"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 13
+text = "Броня: +0 | Защита от спор: 0% | Бонус скорости: +0%"
+
+[node name="BottomRow" type="HBoxContainer" parent="CenterContainer/MainPanel/Margin/HBox/RightEquipment"]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="CloseButton" type="Button" parent="CenterContainer/MainPanel/Margin/HBox/RightEquipment/BottomRow"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Закрыть инвентарь [ Q ]"

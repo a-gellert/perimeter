@@ -13,6 +13,10 @@ signal interaction_target_changed(prompt_text: String, action_type: String)
 @export var sprint_speed: float = 6.5
 @export var acceleration: float = 12.0
 @export var gravity: float = 18.0
+@export var jump_velocity: float = 4.8
+
+var wants_sprint_toggle: bool = false
+var touch_look_sensitivity: float = 1.0
 
 # --- ПАРАМЕТРЫ ХАРАКТЕРИСТИК ---
 @export_group("Stats & Limits")
@@ -55,7 +59,7 @@ var carrier: PlayerController:
 @onready var head: Node3D = $Head
 @onready var fpv_camera: Camera3D = $Head/FPVCamera
 @onready var interaction_ray: RayCast3D = $Head/InteractionRay
-@onready var log_meshes: Array[MeshInstance3D] = [
+@onready var log_meshes: Array[Node3D] = [
 	$ShoulderLogSlot/LogMesh1,
 	$ShoulderLogSlot/LogMesh2,
 	$ShoulderLogSlot/LogMesh3
@@ -112,11 +116,13 @@ func _physics_process(dt: float) -> void:
 
 	_apply_gravity(dt)
 	_handle_movement(dt)
+	_handle_gamepad_look(dt)
 
 	# 1. Проверка зоны и штраф за уклон
-	if is_on_floor() and (Engine.has_singleton("WorldTopography") or get_node_or_null("/root/WorldTopography")):
+	var topo := get_node_or_null("/root/WorldTopography")
+	if is_on_floor() and topo:
 		var current_floor_normal: Vector3 = get_floor_normal()
-		var slope_severity: float = WorldTopography.evaluate_slope(current_floor_normal)
+		var slope_severity: float = topo.evaluate_slope(current_floor_normal)
 
 		# Подъем по крутому серпантину к скалам расходует больше сил
 		if slope_severity > 0.25 and velocity.length() > 0.5:
@@ -125,16 +131,64 @@ func _physics_process(dt: float) -> void:
 	_update_vitals(dt)
 	_check_interaction()
 
+func apply_look_rotation(delta_look: Vector2) -> void:
+	rotate_y(-delta_look.x * mouse_sensitivity)
+	_pitch = clampf(
+		_pitch - delta_look.y * mouse_sensitivity,
+		deg_to_rad(min_pitch_deg),
+		deg_to_rad(max_pitch_deg)
+	)
+	if head:
+		head.rotation.x = _pitch
+
+func jump() -> void:
+	if is_on_floor() and carried_logs <= 1:
+		velocity.y = jump_velocity
+		consume_stamina(8.0)
+
+func toggle_sprint() -> void:
+	wants_sprint_toggle = not wants_sprint_toggle
+
+func set_sprint(active: bool) -> void:
+	wants_sprint_toggle = active
+
+func trigger_primary_action() -> void:
+	var wm = find_child("HandSlot", true, false)
+	if wm:
+		if wm.axe_node and wm.axe_node.visible and wm.axe_node.has_method("swing_axe"):
+			wm.axe_node.swing_axe()
+		elif wm.rifle_node and wm.rifle_node.visible and wm.rifle_node.has_method("shoot"):
+			wm.rifle_node.shoot()
+
+func trigger_secondary_action(active: bool) -> void:
+	var wm = find_child("HandSlot", true, false)
+	if wm and wm.rifle_node and wm.rifle_node.visible and wm.rifle_node.has_method("set_aiming"):
+		wm.rifle_node.set_aiming(active)
+
+func trigger_reload() -> void:
+	var wm = find_child("HandSlot", true, false)
+	if wm and wm.rifle_node and wm.rifle_node.visible and wm.rifle_node.has_method("reload"):
+		wm.rifle_node.reload()
+
+func _handle_gamepad_look(dt: float) -> void:
+	var joy_look := Vector2(
+		Input.get_joy_axis(0, JOY_AXIS_RIGHT_X),
+		Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
+	)
+	if joy_look.length() > 0.15:
+		apply_look_rotation(joy_look * 900.0 * dt)
+
 # 2. Обновление зоны и открытие точек интереса каждые 0.5 секунды
 func _on_topography_timer_timeout() -> void:
-	if not Engine.has_singleton("WorldTopography") and not get_node_or_null("/root/WorldTopography"):
+	var topo := get_node_or_null("/root/WorldTopography")
+	if not topo:
 		return
-	var new_zone: WorldZoneManager.ZoneType = WorldTopography.get_zone_at_position(global_position)
-	if new_zone != WorldTopography.current_zone:
-		WorldTopography.current_zone = new_zone
-		WorldTopography.emit_signal("zone_entered", new_zone, WorldTopography.get_zone_display_name(new_zone))
+	var new_zone: int = topo.get_zone_at_position(global_position)
+	if new_zone != topo.current_zone:
+		topo.current_zone = new_zone
+		topo.emit_signal("zone_entered", new_zone, topo.get_zone_display_name(new_zone))
 	
-	WorldTopography.check_poi_proximity(global_position)
+	topo.check_poi_proximity(global_position)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_building_mode:
@@ -148,18 +202,19 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_tablet"):
 		_toggle_tablet_mode()
 
+	if event.is_action_pressed("toggle_inventory"):
+		var inv_ui = get_tree().get_first_node_in_group("inventory_ui")
+		if inv_ui and inv_ui.has_method("toggle_inventory"):
+			inv_ui.toggle_inventory()
+
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		var inv = get_node_or_null("/root/InventoryManager")
+		if inv and (inv.is_inventory_open or inv.is_crafting_open):
+			return
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		rotate_y(-event.relative.x * mouse_sensitivity)
-		_pitch = clampf(
-			_pitch - event.relative.y * mouse_sensitivity,
-			deg_to_rad(min_pitch_deg),
-			deg_to_rad(max_pitch_deg)
-		)
-		if head:
-			head.rotation.x = _pitch
+		apply_look_rotation(event.relative)
 
 func _toggle_tablet_mode() -> void:
 	var bus: Node = get_node_or_null("/root/GameEvents")
@@ -173,12 +228,27 @@ func _toggle_tablet_mode() -> void:
 # 1. ДВИЖЕНИЕ, СПРИНТ И УСТАЛОСТЬ
 # ==============================================================================
 func _handle_movement(dt: float) -> void:
+	var inv = get_node_or_null("/root/InventoryManager")
+	if inv and (inv.is_inventory_open or inv.is_crafting_open):
+		velocity.x = lerp(velocity.x, 0.0, acceleration * dt)
+		velocity.z = lerp(velocity.z, 0.0, acceleration * dt)
+		move_and_slide()
+		return
+
+	# Прыжок (Space на ПК, B на геймпаде, кнопка Прыжок на тачскрине)
+	if Input.is_action_just_pressed("jump") and is_on_floor():
+		jump()
+
 	var input_dir: Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var move_direction: Vector3 = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
-	# Спринт блокируется при нулевой стамине или переноске бревен
-	var can_sprint: bool = Input.is_action_pressed("sprint") and stamina > 5.0 and carried_logs == 0 and input_dir.y < 0
+	# Спринт (Shift на ПК, L3 на геймпаде, кнопка или удержание на тачскрине)
+	var is_moving: bool = input_dir.length_squared() > 0.04
+	var wants_sprint: bool = (Input.is_action_pressed("sprint") or wants_sprint_toggle) and is_moving
+	var can_sprint: bool = wants_sprint and stamina > 5.0 and carried_logs == 0
 	is_sprinting = can_sprint
+	if not can_sprint and not is_moving:
+		wants_sprint_toggle = false
 
 	# Скорость режется от усталости и веса бревен на плече
 	var speed: float = sprint_speed if is_sprinting else walk_speed
@@ -243,6 +313,17 @@ func sleep_and_restore(hours: int) -> void:
 
 func take_damage(amount: float) -> void:
 	hp = max(0.0, hp - amount)
+	emit_signal("stats_changed", hp, stamina, fatigue, hunger)
+
+func consume_stamina(amount: float) -> bool:
+	if stamina >= amount:
+		stamina = max(0.0, stamina - amount)
+		emit_signal("stats_changed", hp, stamina, fatigue, hunger)
+		return true
+	return false
+
+func restore_stamina(amount: float) -> void:
+	stamina = min(max_stamina, stamina + amount)
 	emit_signal("stats_changed", hp, stamina, fatigue, hunger)
 
 # ==============================================================================
@@ -344,9 +425,9 @@ func _update_log_visuals() -> void:
 		var slot: Node = get_node_or_null("ShoulderLogSlot")
 		if slot:
 			log_meshes = [
-				slot.get_node_or_null("LogMesh1") as MeshInstance3D,
-				slot.get_node_or_null("LogMesh2") as MeshInstance3D,
-				slot.get_node_or_null("LogMesh3") as MeshInstance3D
+				slot.get_node_or_null("LogMesh1") as Node3D,
+				slot.get_node_or_null("LogMesh2") as Node3D,
+				slot.get_node_or_null("LogMesh3") as Node3D
 			]
 	for i in range(log_meshes.size()):
 		if log_meshes[i]:
@@ -358,15 +439,19 @@ func _update_log_visuals() -> void:
 func _emit_noise(radius: float) -> void:
 	var pos: Vector3 = global_position if is_inside_tree() else position
 	emit_signal("noise_emitted", pos, radius)
-	if has_node("/root/ValleyEcology"):
-		ValleyEcology.emit_sound(pos, radius)
+	var eco: Node = get_node_or_null("/root/ValleyEcology")
+	if eco and eco.has_method("emit_sound"):
+		eco.emit_sound(pos, radius)
 
 # ==============================================================================
 # 6. ПЕРЕКЛЮЧЕНИЕ В «РЕЖИМ АРХИТЕКТОРА» (ВИД СВЕРХУ)
 # ==============================================================================
 func set_building_mode(enabled: bool) -> void:
 	is_building_mode = enabled
-	if fpv_camera:
+	var rig: Node = null
+	if is_inside_tree() and get_tree().current_scene:
+		rig = get_tree().current_scene.find_child("HybridCameraRig", true, false)
+	if not rig and fpv_camera:
 		fpv_camera.current = !enabled
 	# Визуальные бревна скрываем на время вида сверху, чтобы не мелькали
 	var slot: Node3D = get_node_or_null("ShoulderLogSlot")

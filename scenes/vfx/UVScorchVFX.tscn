@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_spark"]
+albedo_color = Color(0.7, 0.4, 1.0, 1)
+emission_enabled = true
+emission = Color(0.8, 0.45, 1.0, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_spark"]
+material = SubResource("StandardMaterial3D_spark")
+size = Vector3(0.06, 0.06, 0.06)
+
+[node name="UVScorchVFX" type="CPUParticles3D"]
+amount = 16
+lifetime = 0.45
+mesh = SubResource("BoxMesh_spark")
+direction = Vector3(0, 1, 0)
+spread = 80.0
+initial_velocity_min = 2.0
+initial_velocity_max = 4.5
+scale_amount_min = 0.5
+scale_amount_max = 1.2

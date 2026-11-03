@@ -28,12 +28,13 @@ var current_target: Node3D = null
 var attack_cooldown: float = 0.0
 var _original_mesh_pos: Vector3 = Vector3.ZERO
 
-@onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
-@onready var body_mesh: MeshInstance3D = $MeshInstance3D
+@onready var nav_agent: NavigationAgent3D = get_node_or_null("NavigationAgent3D")
+@onready var body_mesh: MeshInstance3D = (get_node_or_null("MeshInstance3D") as MeshInstance3D) if get_node_or_null("MeshInstance3D") else (find_child("*Torso*", true, false) as MeshInstance3D)
 
 func _ready() -> void:
 	health = max_health
 	add_to_group("mutants")
+	add_to_group("enemies")
 	if body_mesh:
 		_original_mesh_pos = body_mesh.position
 	

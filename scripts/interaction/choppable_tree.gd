@@ -47,6 +47,9 @@ func interact(actor: Node) -> void:
 
 	if has_node("/root/ValleyEcology"):
 		ValleyEcology.emit_sound(pos, 22.0)
+	var audio := get_node_or_null("/root/AudioManager")
+	if audio and audio.has_method("play_sfx_3d"):
+		audio.play_sfx_3d("chop", pos)
 
 	# Визуальная отдача (встряска кроны при ударе)
 	if tree_root:
@@ -54,6 +57,15 @@ func interact(actor: Node) -> void:
 		tween.tween_property(tree_root, "scale", Vector3(0.93, 1.07, 0.93), 0.05)
 		tween.tween_property(tree_root, "scale", Vector3(1.04, 0.96, 1.04), 0.06)
 		tween.tween_property(tree_root, "scale", Vector3.ONE, 0.08)
+
+	# Спавн щепок
+	var chips_scene := load("res://scenes/vfx/WoodChipsVFX.tscn") as PackedScene
+	if chips_scene and get_tree() and get_tree().current_scene:
+		var chips := chips_scene.instantiate() as CPUParticles3D
+		get_tree().current_scene.add_child(chips)
+		chips.global_position = pos + Vector3(0, 1.2, 0)
+		chips.emitting = true
+		get_tree().create_timer(1.0).timeout.connect(chips.queue_free)
 
 	if current_hits >= max_hits:
 		_fell_tree(tree_root, actor)
@@ -105,11 +117,11 @@ func _on_tree_crashed(world: Node, spawn_pos: Vector3, fall_dir: Vector3, tree_r
 		world.add_child(stump)
 		stump.global_position = spawn_pos
 
-	# Спавн физических бревен
 	if log_scene and world:
 		for i in range(logs_to_spawn):
 			var log_inst := log_scene.instantiate() as Node3D
-			world.add_child(log_inst)
+			log_inst.name = "LogItem"
+			world.add_child(log_inst, true)
 			# Бревна выпадают вдоль упавшего ствола
 			var dist: float = 2.0 + float(i) * 1.8
 			var jitter := Vector3(randf_range(-0.5, 0.5), 0.3, randf_range(-0.5, 0.5))

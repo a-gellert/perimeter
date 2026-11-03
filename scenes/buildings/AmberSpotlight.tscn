@@ -1,0 +1,88 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/building/amber_spotlight.gd" id="1_spotlight"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_post"]
+height = 3.2
+radius = 0.35
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ghost"]
+transparency = 1
+albedo_color = Color(0.15, 0.78, 0.95, 0.45)
+roughness = 0.2
+emission_enabled = true
+emission = Color(0.1, 0.65, 0.95, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ghost"]
+material = SubResource("StandardMaterial3D_ghost")
+top_radius = 0.35
+bottom_radius = 0.35
+height = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_beam"]
+transparency = 1
+albedo_color = Color(0.4, 0.1, 0.95, 0.25)
+emission_enabled = true
+emission = Color(0.5, 0.15, 1.0, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_beam"]
+material = SubResource("StandardMaterial3D_beam")
+top_radius = 0.2
+bottom_radius = 6.0
+height = 24.0
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_cone"]
+points = PackedVector3Array(0, 0, 0, -6, 0, -24, 6, 0, -24, 0, 6, -24, 0, -6, -24)
+
+[node name="AmberSpotlight" type="StaticBody3D" node_paths=PackedStringArray("spot_light", "beam_mesh", "uv_detection_area", "ghost_mesh", "completed_mesh")]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_spotlight")
+spot_light = NodePath("CompletedMesh/Head/SpotLight3D")
+beam_mesh = NodePath("CompletedMesh/Head/BeamMesh")
+uv_detection_area = NodePath("CompletedMesh/Head/UVDetectionArea")
+ghost_mesh = NodePath("GhostMesh")
+completed_mesh = NodePath("CompletedMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+shape = SubResource("CylinderShape3D_post")
+
+[node name="GhostMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("CylinderMesh_ghost")
+
+[node name="CompletedMesh" type="Node3D" parent="."]
+visible = false
+
+[node name="Post" type="CSGCylinder3D" parent="CompletedMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+radius = 0.25
+height = 3.0
+
+[node name="Head" type="Node3D" parent="CompletedMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.0, 0)
+
+[node name="Housing" type="CSGBox3D" parent="CompletedMesh/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.3)
+size = Vector3(0.5, 0.5, 0.7)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="CompletedMesh/Head"]
+light_color = Color(0.65, 0.35, 1, 1)
+light_energy = 5.0
+shadow_enabled = true
+spot_range = 24.0
+spot_angle = 35.0
+
+[node name="BeamMesh" type="MeshInstance3D" parent="CompletedMesh/Head"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -12)
+mesh = SubResource("CylinderMesh_beam")
+
+[node name="UVDetectionArea" type="Area3D" parent="CompletedMesh/Head"]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CompletedMesh/Head/UVDetectionArea"]
+shape = SubResource("ConvexPolygonShape3D_cone")

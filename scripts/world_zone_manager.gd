@@ -21,18 +21,19 @@ enum ZoneType {
 @export var deadly_spore_border_margin: float = 30.0 # Буфер гибели за пределами карты
 
 @export_group("Building Zone (Outpost)")
-@export var outpost_bounds: AABB = AABB(Vector3(-50, -5, -50), Vector3(100, 20, 100))
+@export var outpost_bounds: AABB = AABB(Vector3(270, -5, 70), Vector3(100, 20, 100)) # Кордон егеря у восточных гор (320, 120)
+@export var legacy_outpost_bounds: AABB = AABB(Vector3(-50, -5, -50), Vector3(100, 20, 100)) # Резервная зона
 
 # Список зарегистрированных POI (Точки интереса)
 var pois: Dictionary = {
-	"outpost_cabin": { "name": "Дом Егеря", "pos": Vector3(0, 1.6, 0), "zone": ZoneType.OUTPOST_CENTER, "visited": true },
+	"outpost_cabin": { "name": "Дом Егеря", "pos": Vector3(320, 1.6, 120), "zone": ZoneType.OUTPOST_CENTER, "visited": true },
 	"gas_station": { "name": "АЗС «Северная»", "pos": Vector3(-320, 1.2, -40), "zone": ZoneType.WEST_TOWN, "visited": false },
 	"town_pharmacy": { "name": "Поселковая Аптека", "pos": Vector3(-410, 2.0, -90), "zone": ZoneType.WEST_TOWN, "visited": false },
 	"amber_quarry": { "name": "Серные Штольни", "pos": Vector3(40, 24.0, -380), "zone": ZoneType.NORTH_RIDGE, "visited": false },
 	"cave_entrance": { "name": "Провал Шнека №3", "pos": Vector3(-120, 18.5, -440), "zone": ZoneType.NORTH_RIDGE, "visited": false },
 	"fishing_pier": { "name": "Рыбацкие Мостки", "pos": Vector3(15, -8.0, 310), "zone": ZoneType.SOUTH_RIVER, "visited": false },
 	"river_crossing": { "name": "Каменистый Брод", "pos": Vector3(-180, -9.5, 260), "zone": ZoneType.SOUTH_RIVER, "visited": false },
-	"ancient_grove": { "name": "Медвежий Бурелом", "pos": Vector3(340, 3.0, 80), "zone": ZoneType.EAST_TAIGA, "visited": false }
+	"ancient_grove": { "name": "Медвежий Бурелом", "pos": Vector3(380, 3.0, -80), "zone": ZoneType.EAST_TAIGA, "visited": false }
 }
 
 var current_zone: ZoneType = ZoneType.OUTPOST_CENTER
@@ -46,8 +47,8 @@ func get_zone_at_position(pos: Vector3) -> ZoneType:
 	if abs(pos.x) > half_map_size or abs(pos.z) > half_map_size:
 		return ZoneType.DEAD_BORDER
 
-	# 2. Проверка центрального кордона (100х100м)
-	if outpost_bounds.has_point(pos):
+	# 2. Проверка кордона (нового у восточных гор и центрального)
+	if outpost_bounds.has_point(pos) or legacy_outpost_bounds.has_point(pos):
 		return ZoneType.OUTPOST_CENTER
 
 	# 3. Кардинальное разделение по секторам карты
@@ -67,9 +68,9 @@ func get_zone_at_position(pos: Vector3) -> ZoneType:
 	# Буферный переходный лес вокруг базы
 	return ZoneType.OUTPOST_CENTER
 
-# Проверка разрешения на постройку (только на кордоне 100х100м)
+# Проверка разрешения на постройку (на кордоне 100х100м)
 func is_inside_buildable_zone(world_pos: Vector3) -> bool:
-	return outpost_bounds.has_point(world_pos)
+	return outpost_bounds.has_point(world_pos) or legacy_outpost_bounds.has_point(world_pos)
 
 # Оценка уклона рельефа (для штрафа выносливости егеря при подъеме на скалы)
 func evaluate_slope(normal: Vector3) -> float:

@@ -76,8 +76,8 @@ shape = SubResource("BoxShape3D_interact")
 
 [node name="ChoppableTree" type="Node" parent="InteractionArea"]
 script = ExtResource("1_tree")
-tree_name = "Могучий Кедр"
+tree_name = "Сибирский Кедр"
 max_hits = 5
-logs_to_spawn = 3
+logs_to_spawn = 4
 log_scene = ExtResource("2_log")
 stump_scene = ExtResource("3_stump")

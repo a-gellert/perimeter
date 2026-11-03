@@ -9,6 +9,11 @@ extends Node
 @export var max_spawn_distance: float = 120.0
 @export var cleanup_distance: float = 60.0
 @export var mutant_scene: PackedScene
+@export var skinner_scene: PackedScene
+@export var geo_titan_scene: PackedScene
+@export var spore_zombie_scene: PackedScene
+@export var spore_wolf_scene: PackedScene
+@export var spore_boar_scene: PackedScene
 
 var current_phase: int = GameEnums.DayPhase.DAY
 var is_raid_active: bool = false
@@ -18,6 +23,16 @@ var _spawned_mutants: Array[Node3D] = []
 func _ready() -> void:
 	if not mutant_scene:
 		mutant_scene = load("res://scenes/mutant_sleeper.tscn")
+	if not skinner_scene:
+		skinner_scene = load("res://scenes/enemies/SkinnerMutant.tscn")
+	if not geo_titan_scene:
+		geo_titan_scene = load("res://scenes/enemies/GeoTitanBoss.tscn")
+	if not spore_zombie_scene:
+		spore_zombie_scene = load("res://scenes/enemies/SporeZombie.tscn")
+	if not spore_wolf_scene:
+		spore_wolf_scene = load("res://scenes/enemies/SporeWolf.tscn")
+	if not spore_boar_scene:
+		spore_boar_scene = load("res://scenes/enemies/SporeBoar.tscn")
 	
 	if GameEvents:
 		if GameEvents.has_signal("day_phase_changed"):
@@ -57,6 +72,9 @@ func _start_night_raid() -> void:
 			_spawn_mutant(is_boss)
 	
 	GameEvents.night_raid_started.emit(spawn_count)
+	var audio := get_node_or_null("/root/AudioManager")
+	if audio and audio.has_method("play_sfx_2d"):
+		audio.play_sfx_2d("alarm_bell", 2.0)
 
 func _spawn_mid_night_reinforcements() -> void:
 	if not is_raid_active:
@@ -105,7 +123,26 @@ func get_raid_intensity() -> Dictionary:
 			return { "count": 2, "has_boss": false, "name": "Набег" }
 
 func _spawn_mutant(is_boss: bool = false) -> Node3D:
-	if not mutant_scene:
+	var scene_to_spawn: PackedScene = mutant_scene
+	var cycle_day: int = ((current_day - 1) % 6) + 1
+
+	if is_boss:
+		if geo_titan_scene and randf() < 0.6:
+			scene_to_spawn = geo_titan_scene
+		elif spore_boar_scene:
+			scene_to_spawn = spore_boar_scene
+	elif cycle_day >= 2:
+		var r := randf()
+		if r < 0.30 and spore_zombie_scene:
+			scene_to_spawn = spore_zombie_scene
+		elif r < 0.55 and spore_wolf_scene:
+			scene_to_spawn = spore_wolf_scene
+		elif r < 0.75 and spore_boar_scene:
+			scene_to_spawn = spore_boar_scene
+		elif r < 0.90 and skinner_scene:
+			scene_to_spawn = skinner_scene
+
+	if not scene_to_spawn:
 		return null
 
 	var base_pos := get_base_position()
@@ -114,7 +151,7 @@ func _spawn_mutant(is_boss: bool = false) -> Node3D:
 	var spawn_pos := base_pos + Vector3(cos(angle) * distance, 0.0, sin(angle) * distance)
 	spawn_pos.y = _get_elevation_at(spawn_pos.x, spawn_pos.z)
 
-	var inst := mutant_scene.instantiate() as CharacterBody3D
+	var inst := scene_to_spawn.instantiate() as CharacterBody3D
 	if not inst:
 		return null
 

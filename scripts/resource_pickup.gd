@@ -15,6 +15,48 @@ func _ready() -> void:
 func _setup_visuals() -> void:
 	if not mesh_instance:
 		mesh_instance = get_node_or_null("MeshInstance3D")
+
+	# Remove previous model if reconfigured
+	var old_model = get_node_or_null("ModelInstance")
+	if old_model:
+		old_model.queue_free()
+
+	var model_path := ""
+	var model_scale := Vector3.ONE
+	match resource_type:
+		"fuel":
+			model_path = "res://assets/just_survive/FBX/Jerrycan.fbx"
+			model_scale = Vector3(1.2, 1.2, 1.2)
+		"empty_jars":
+			model_path = "res://assets/just_survive/FBX/Foodcan.fbx"
+			model_scale = Vector3(1.6, 1.6, 1.6)
+		"canned_spores":
+			model_path = "res://assets/just_survive/FBX/FoodcanOpen.fbx"
+			model_scale = Vector3(1.6, 1.6, 1.6)
+		"raw_spores":
+			model_path = "res://assets/just_survive/FBX/Mushroom001.fbx"
+			model_scale = Vector3(2.5, 2.5, 2.5)
+		"scrap":
+			model_path = "res://assets/just_survive/FBX/Cleaver.fbx"
+			model_scale = Vector3(1.5, 1.5, 1.5)
+		"salt":
+			model_path = "res://assets/just_survive/FBX/Rock005.fbx"
+			model_scale = Vector3(0.2, 0.2, 0.2)
+		"amber":
+			model_path = "res://assets/just_survive/FBX/Rock006.fbx"
+			model_scale = Vector3(0.25, 0.25, 0.25)
+
+	if ResourceLoader.exists(model_path):
+		var scn: PackedScene = load(model_path)
+		if scn:
+			var inst = scn.instantiate()
+			inst.name = "ModelInstance"
+			inst.scale = model_scale
+			add_child(inst)
+			if mesh_instance:
+				mesh_instance.visible = false
+			return
+
 	if not mesh_instance:
 		return
 

@@ -12,6 +12,7 @@ extends Node3D
 ]
 
 func _ready() -> void:
-	if has_node("/root/ValleyEcology"):
+	var eco: Node = get_node_or_null("/root/ValleyEcology")
+	if eco and eco.has_method("register_river_point"):
 		for pt in river_path:
-			ValleyEcology.register_river_point(to_global(pt))
+			eco.register_river_point(to_global(pt))

@@ -14,14 +14,28 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not is_active or is_swinging:
 		return
 	
-	if event.is_action_pressed("primary_action") and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+	if event.is_action_pressed("primary_action"):
+		var inv = get_node_or_null("/root/InventoryManager")
+		if inv and (inv.is_inventory_open or inv.is_crafting_open):
+			return
 		swing_axe()
 
 func swing_axe() -> void:
 	is_swinging = true
 	var player := owner as PlayerController
-	if player and player.stats:
-		player.stats.consume_stamina(stamina_cost)
+	if not player and get_parent():
+		var p: Node = self
+		while p.get_parent():
+			p = p.get_parent()
+			if p is PlayerController:
+				player = p as PlayerController
+				break
+
+	if player:
+		if player.has_method("consume_stamina"):
+			player.consume_stamina(stamina_cost)
+		elif player.stats and player.stats.has_method("consume_stamina"):
+			player.stats.consume_stamina(stamina_cost)
 
 	# Procedural swing animation
 	if axe_mesh:

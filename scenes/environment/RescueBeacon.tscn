@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/environment/rescue_radio_beacon.gd" id="1_beacon"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_base"]
+height = 1.2
+radius = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_metal"]
+albedo_color = Color(0.45, 0.48, 0.52, 1)
+metallic = 0.8
+roughness = 0.3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact"]
+size = Vector3(2.5, 2.5, 2.5)
+
+[node name="RescueBeacon" type="StaticBody3D" node_paths=PackedStringArray("radio_mast_light")]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1_beacon")
+radio_mast_light = NodePath("MastLight")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("CylinderShape3D_base")
+
+[node name="GeneratorBase" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+size = Vector3(1.4, 1.0, 1.2)
+material = SubResource("StandardMaterial3D_metal")
+
+[node name="AntennaMast" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+radius = 0.08
+height = 5.0
+material = SubResource("StandardMaterial3D_metal")
+
+[node name="Dish" type="CSGCylinder3D" parent="AntennaMast"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 1.8, 0.25)
+radius = 0.65
+height = 0.1
+
+[node name="MastLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.2, 0)
+visible = false
+light_color = Color(0.2, 0.8, 1, 1)
+light_energy = 4.0
+omni_range = 15.0
+
+[node name="InteractionArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+shape = SubResource("BoxShape3D_interact")

@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_chip"]
+albedo_color = Color(0.68, 0.52, 0.32, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_chip"]
+material = SubResource("StandardMaterial3D_chip")
+size = Vector3(0.08, 0.08, 0.16)
+
+[node name="WoodChipsVFX" type="CPUParticles3D"]
+emitting = false
+amount = 14
+lifetime = 0.65
+one_shot = true
+explosiveness = 0.85
+mesh = SubResource("BoxMesh_chip")
+direction = Vector3(0, 1, 0)
+spread = 65.0
+initial_velocity_min = 3.5
+initial_velocity_max = 6.0
+angular_velocity_min = 120.0
+angular_velocity_max = 480.0
+scale_amount_min = 0.7
+scale_amount_max = 1.4
